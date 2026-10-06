@@ -1,0 +1,249 @@
+/* Hollow Earth Theory — layout: CSS Grid + Flexbox */
+
+:root {
+    --bg: #0f1412;
+    --panel: #18201c;
+    --panel-2: #1f2a24;
+    --ink: #e8efe8;
+    --muted: #a7b6ab;
+    --line: #314038;
+    --accent: #d4a24a;
+    --accent-2: #7ec8a3;
+    --nav: #121a16;
+    --footer: #0c100e;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background:
+        radial-gradient(circle at top, #24352c 0%, transparent 42%),
+        var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+}
+
+.page {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+/* Navbar — top of the page */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding: 1rem 1.75rem;
+    background: var(--nav);
+    border-bottom: 3px solid var(--accent);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.brand-mark {
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    border: 4px solid var(--accent);
+    background:
+        radial-gradient(circle at 50% 50%, #f3d27a 0 28%, transparent 30%),
+        conic-gradient(from 90deg, #3b2a12, #8a6230, #3b2a12);
+    box-shadow: inset 0 0 0 6px #1a140c;
+}
+
+.brand-kicker {
+    margin: 0;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+}
+
+.navbar h1 {
+    margin: 0;
+    font-size: 1.35rem;
+}
+
+.navbar nav ul {
+    display: flex;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+}
+
+.navbar a {
+    color: var(--ink);
+    text-decoration: none;
+    padding: 0.45rem 0.8rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+}
+
+.navbar a:hover,
+.navbar a:focus {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* Sidebar + Main Container — side by side */
+.content {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 1.25rem;
+    padding: 1.25rem 1.5rem 1.75rem;
+    align-items: start;
+}
+
+.sidebar,
+.main,
+.footer,
+.navbar {
+    box-shadow: var(--shadow);
+}
+
+.sidebar {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 1.1rem;
+}
+
+.sidebar h2 {
+    margin: 0 0 0.85rem;
+    font-size: 1.05rem;
+    color: var(--accent);
+}
+
+.card {
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 0.85rem 0.9rem;
+    margin-bottom: 0.75rem;
+}
+
+.card h3 {
+    margin: 0 0 0.4rem;
+    font-size: 0.95rem;
+}
+
+.card p,
+.card ul {
+    margin: 0;
+    font-size: 0.92rem;
+    color: var(--muted);
+}
+
+.card ul {
+    padding-left: 1.1rem;
+}
+
+.card.highlight {
+    border-color: var(--accent);
+}
+
+.main {
+    background: #151c18;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 1.4rem 1.6rem 1.8rem;
+}
+
+.main h2 {
+    margin: 0 0 0.6rem;
+    color: var(--accent-2);
+}
+
+.main section + section {
+    margin-top: 1.4rem;
+}
+
+.main ul {
+    padding-left: 1.2rem;
+}
+
+cite {
+    font-style: italic;
+}
+
+/* Footer — bottom of the page */
+.footer {
+    background: var(--footer);
+    border-top: 3px solid var(--accent-2);
+    padding: 1rem 1.75rem 1.25rem;
+}
+
+.footer p {
+    margin: 0.2rem 0;
+}
+
+.muted {
+    color: var(--muted);
+    font-size: 0.92rem;
+}
+
+.footer a,
+.main a {
+    color: var(--accent);
+}
+
+/* Wireframe page */
+.wire-wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+.wireframe {
+    display: grid;
+    grid-template-rows: 70px 280px 70px;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    min-height: 460px;
+}
+
+.wire-nav,
+.wire-side,
+.wire-main,
+.wire-foot {
+    border: 2px dashed #d4a24a;
+    background: rgba(24, 32, 28, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.wire-mid {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 10px;
+}
+
+@media (max-width: 800px) {
+    .content,
+    .wire-mid {
+        grid-template-columns: 1fr;
+    }
+}

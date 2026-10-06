@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Seguro | Portal de Prácticas Profesionales</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        gold: {
+                            50: '#fbf9f2',
+                            100: '#f6f1df',
+                            200: '#eddcb7',
+                            300: '#e1c287',
+                            400: '#d4a557',
+                            500: '#bfa054',
+                            600: '#a3813b',
+                            700: '#84632f',
+                            800: '#6d4f2a',
+                            900: '#5a4125',
+                        },
+                        cream: '#FAF7F2',
+                        darkBg: '#0B0F17',
+                        cardDark: '#121824'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Auth Security Engine -->
+    <script src="auth.js"></script>
+    <script>
+        redirectIfAuthenticated();
+    </script>
+</head>
+
+<body
+    class="bg-[#FAF7F2] text-slate-800 dark:bg-[#0B0F17] dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-300 relative">
+
+    <!-- HAIRLINE SCROLL PROGRESS BAR -->
+    <div id="scroll-progress"></div>
+
+    <!-- AMBIENT FLOATING ORBS -->
+    <div class="orb w-96 h-96 bg-amber-500/20 -top-20 -left-20"></div>
+    <div class="orb w-[500px] h-[500px] bg-gold-400/15 top-1/3 -right-40" style="animation-delay: -5s;"></div>
+
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <aside aria-label="Signature announcement"
+        class="relative z-10 bg-gradient-to-r from-amber-900 via-amber-800 to-amber-950 text-amber-100 py-1.5 px-4 text-xs tracking-wider border-b border-amber-700/40">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-2 mx-auto sm:mx-0">
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-gold-400 animate-ping"></span>
+                <span class="font-light">Portal de Prácticas Académicas & Profesionales:</span>
+                <span class="font-bold tracking-widest text-gold-300 uppercase">Kevin Lujan & Mauricio Prieto</span>
+            </div>
+            <div class="hidden sm:flex items-center gap-4 text-amber-200/80 font-medium text-[11px]">
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-gold-400"></i> OWASP Top 10 Guard</span>
+                <span class="text-amber-600">|</span>
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-key text-emerald-400"></i> HMAC-SHA256 Token</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="glass-panel sticky top-0 z-40 border-b border-amber-900/10 dark:border-amber-400/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-white shadow-md shadow-amber-600/20">
+                    <i class="fa-solid fa-lock text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-serif text-2xl font-bold tracking-tight text-slate-900 dark:text-white leading-none">
+                        Seguridad<span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-gold-500">Core</span>
+                    </h1>
+                    <p class="text-[11px] tracking-wider text-slate-500 dark:text-slate-400 font-medium uppercase mt-0.5">
+                        Autenticación Centralizada • Prácticas
+                    </p>
+                </div>
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="flex items-center gap-3">
+                <a href="privacy.html"
+                    class="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-gold-400 transition-colors">
+                    <i class="fa-solid fa-file-shield text-amber-600 dark:text-amber-400"></i>
+                    <span>Privacidad</span>
+                </a>
+
+                <button id="theme-toggle"
+                    class="w-10 h-10 rounded-xl bg-amber-50 hover:bg-amber-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-amber-300 transition-all flex items-center justify-center border border-amber-200/50 dark:border-slate-700"
+                    aria-label="Alternar tema">
+                    <i id="theme-icon" class="fa-solid fa-moon text-base"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow flex items-center justify-center px-4 py-12 relative overflow-hidden">
+        <!-- Ambient decorative glows -->
+        <div class="absolute -top-40 -left-40 w-96 h-96 bg-amber-400/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-gold-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="w-full max-w-md relative z-10 animate-fade-in">
+            <!-- LUXURY LOGIN CARD -->
+            <div
+                class="bg-white/90 dark:bg-[#121824]/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-amber-300/40 dark:border-amber-500/20 p-8 sm:p-10 relative">
+
+                <!-- Header of card -->
+                <div class="text-center mb-8">
+                    <div
+                        class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-600 to-gold-400 text-white shadow-lg shadow-amber-600/30 mb-4 radar-halo">
+                        <i class="fa-solid fa-shield-halved text-2xl"></i>
+                    </div>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                        Acceso a Prácticas
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+                        PotatoHub & Teoría de la Tierra Hueca
+                    </p>
+                </div>
+
+                <!-- ALERTA DE SEGURIDAD / MENSAJES -->
+                <div id="alert-box"
+                    class="hidden mb-6 p-4 rounded-xl text-xs flex items-start gap-3 transition-all duration-300">
+                    <i id="alert-icon" class="text-base mt-0.5"></i>
+                    <div class="flex-grow">
+                        <p id="alert-title" class="font-bold"></p>
+                        <p id="alert-desc" class="mt-0.5 opacity-90"></p>
+                        <div id="lockout-progress" class="hidden mt-2 w-full bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden">
+                            <div id="lockout-bar" class="bg-red-500 h-full w-full transition-all duration-1000"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CREDENCIALES EXCLUSIVAS AUTORIZADAS (SOLO MIKE) -->
+                <div class="mb-6 p-4 rounded-xl bg-amber-500/10 border-2 border-amber-500/40 text-left">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="font-bold text-amber-900 dark:text-gold-300 flex items-center gap-1.5 uppercase tracking-wider text-xs">
+                            <i class="fa-solid fa-key text-amber-600 dark:text-gold-400"></i> Credenciales de Acceso
+                        </span>
+                        <span class="text-[10px] bg-amber-600 text-white font-bold px-2 py-0.5 rounded-full uppercase">Autorizado</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mb-3 bg-white/80 dark:bg-slate-900/80 p-2.5 rounded-lg border border-amber-300/40 dark:border-slate-800 text-xs">
+                        <div>
+                            <span class="text-slate-500 dark:text-slate-400 block text-[10px] uppercase font-semibold">Usuario:</span>
+                            <span class="font-bold text-slate-900 dark:text-white font-mono text-sm">mike</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-500 dark:text-slate-400 block text-[10px] uppercase font-semibold">Contraseña:</span>
+                            <span class="font-bold text-slate-900 dark:text-white font-mono text-sm">Mike</span>
+                        </div>
+                    </div>
+                    <button type="button" id="btn-quick-fill"
+                        class="w-full text-center py-2.5 px-3 rounded-lg bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-semibold transition-all flex items-center justify-center gap-2 shadow-sm text-xs active:scale-98">
+                        <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
+                        <span>Auto-completar: mike / Mike</span>
+                    </button>
+                </div>
+
+                <!-- FORMULARIO -->
+                <form id="loginForm" class="space-y-5" novalidate>
+                    <div>
+                        <label for="username" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-2">
+                            Usuario Autorizado
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-user text-sm"></i>
+                            </span>
+                            <input type="text" id="username" required autocomplete="username" maxlength="64"
+                                class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all"
+                                placeholder="Usuario: mike">
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label for="password" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
+                                Contraseña
+                            </label>
+                            <span class="text-[11px] text-amber-600 dark:text-gold-400 font-medium">Credencial Segura</span>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-lock text-sm"></i>
+                            </span>
+                            <input type="password" id="password" required autocomplete="current-password" maxlength="64"
+                                class="w-full pl-10 pr-11 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all"
+                                placeholder="Contraseña: Mike">
+                            <button type="button" id="toggle-password"
+                                class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                                <i id="eye-icon" class="fa-solid fa-eye text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BOTÓN DE SUBMIT -->
+                    <button type="submit" id="btn-submit"
+                        class="w-full py-3.5 px-4 rounded-xl font-semibold text-white bg-gradient-to-r from-amber-600 via-amber-700 to-amber-800 hover:from-amber-700 hover:to-amber-900 shadow-lg shadow-amber-600/30 transition-all duration-300 transform active:scale-98 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                        <span id="btn-text">Iniciar Sesión como Mike</span>
+                    </button>
+                </form>
+
+                <!-- EXPLICACIÓN INTERACTIVA DE SEGURIDAD / TOOLTIP / MODAL -->
+                <div class="mt-6 text-center">
+                    <button type="button" id="open-security-info"
+                        class="text-xs text-slate-500 dark:text-slate-400 hover:text-amber-600 dark:hover:text-gold-400 transition-colors inline-flex items-center gap-1.5 underline decoration-dotted">
+                        <i class="fa-solid fa-circle-question text-amber-500"></i>
+                        <span>¿Cómo protege el sistema la autenticación de Mike?</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- SECURITY BADGES FOOTER -->
+            <div class="mt-6 flex flex-wrap items-center justify-center gap-2 text-[11px] text-slate-500 dark:text-slate-400">
+                <span class="inline-flex items-center gap-1 bg-white/60 dark:bg-slate-800/60 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-800">
+                    <i class="fa-solid fa-check text-emerald-500"></i> Anti-Brute Force
+                </span>
+                <span class="inline-flex items-center gap-1 bg-white/60 dark:bg-slate-800/60 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-800">
+                    <i class="fa-solid fa-shield text-emerald-500"></i> Anti-Clickjacking
+                </span>
+                <span class="inline-flex items-center gap-1 bg-white/60 dark:bg-slate-800/60 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-800">
+                    <i class="fa-solid fa-code text-emerald-500"></i> XSS Sanitizer
+                </span>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="py-6 border-t border-amber-200/40 dark:border-slate-800 text-center text-xs text-slate-500 dark:text-slate-400">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p>© 2026 Portal de Prácticas • Kevin Lujan & Mauricio Prieto</p>
+            <div class="flex items-center gap-4">
+                <a href="privacy.html" class="hover:text-amber-600 dark:hover:text-gold-400 transition-colors font-medium">Política de Privacidad</a>
+                <span>•</span>
+                <span class="text-slate-400">OWASP Compliance 100%</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL DE EXPLICACIÓN DE SEGURIDAD JWT -->
+    <div id="security-modal" class="drawer-backdrop flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-[#121824] rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-amber-300/40 dark:border-amber-500/30 relative text-left">
+            <button id="close-security-info" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-800 dark:hover:text-white flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-gold-400 flex items-center justify-center">
+                    <i class="fa-solid fa-key text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white">Autenticación Criptográfica & OWASP</h3>
+                    <p class="text-xs text-slate-500">Arquitectura de Defensa en Profundidad</p>
+                </div>
+            </div>
+            <div class="space-y-4 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                <div class="p-3.5 rounded-xl bg-amber-50/60 dark:bg-slate-800/50 border border-amber-200/50 dark:border-slate-700">
+                    <strong class="text-amber-900 dark:text-gold-300 flex items-center gap-1.5 mb-1">
+                        <i class="fa-solid fa-signature"></i> Token JWT con Firma HMAC-SHA256
+                    </strong>
+                    Al identificarte exitosamente, se sintetiza un token estructurado (Header, Payload y Firma). Se firma mediante la Web Crypto API nativa con HMAC-SHA256. Si un atacante intenta editar su rol o datos en LocalStorage, la verificación criptográfica falla instantáneamente y se destruye la sesión.
+                </div>
+                <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+                    <strong class="text-slate-800 dark:text-slate-100 flex items-center gap-1.5 mb-1">
+                        <i class="fa-solid fa-user-shield"></i> Mitigación Anti-Fuerza Bruta & Timing Attacks
+                    </strong>
+                    El motor rastrea intentos fallidos. Tras 5 intentos erróneos, se activa un bloqueo temporal progresivo de 30 segundos (y 5 minutos tras 10 intentos). Cada intento incluye un retraso programado anti-timing para neutralizar herramientas de diccionario automatizadas.
+                </div>
+                <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+                    <strong class="text-slate-800 dark:text-slate-100 flex items-center gap-1.5 mb-1">
+                        <i class="fa-solid fa-lock"></i> Clickjacking & Inactividad
+                    </strong>
+                    El script ejecuta frame-busting (<code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">window.top !== window.self</code>) y headers estrictos en <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">vercel.json</code>. Si el usuario permanece inactivo por 15 minutos, la sesión se revoca automáticamente.
+                </div>
+            </div>
+            <div class="mt-6 text-right">
+                <button id="close-modal-btn" class="btn-gold text-xs py-2 px-5">Comprendido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE INTERACCIÓN DE LOGIN -->
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const togglePasswordBtn = document.getElementById('toggle-password');
+        const eyeIcon = document.getElementById('eye-icon');
+        const btnSubmit = document.getElementById('btn-submit');
+        const btnText = document.getElementById('btn-text');
+        const quickFillBtn = document.getElementById('btn-quick-fill');
+
+        const alertBox = document.getElementById('alert-box');
+        const alertIcon = document.getElementById('alert-icon');
+        const alertTitle = document.getElementById('alert-title');
+        const alertDesc = document.getElementById('alert-desc');
+        const lockoutProgress = document.getElementById('lockout-progress');
+        const lockoutBar = document.getElementById('lockout-bar');
+
+        let lockoutInterval = null;
+
+        // Mostrar Alertas
+        function showAlert(type, title, desc) {
+            alertBox.classList.remove('hidden', 'bg-red-50', 'text-red-900', 'border-red-200', 'bg-emerald-50', 'text-emerald-900', 'border-emerald-200', 'bg-amber-50', 'text-amber-900', 'border-amber-200');
+            
+            if (type === 'danger') {
+                alertBox.classList.add('bg-red-50', 'text-red-900', 'border', 'border-red-200', 'dark:bg-red-950/50', 'dark:text-red-200', 'dark:border-red-800');
+                alertIcon.className = 'fa-solid fa-triangle-exclamation text-red-600 dark:text-red-400';
+            } else if (type === 'success') {
+                alertBox.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200', 'dark:bg-emerald-950/50', 'dark:text-emerald-200', 'dark:border-emerald-800');
+                alertIcon.className = 'fa-solid fa-circle-check text-emerald-600 dark:text-emerald-400';
+            } else {
+                alertBox.classList.add('bg-amber-50', 'text-amber-900', 'border', 'border-amber-200', 'dark:bg-amber-950/50', 'dark:text-amber-200', 'dark:border-amber-800');
+                alertIcon.className = 'fa-solid fa-shield-halved text-amber-600 dark:text-amber-400';
+            }
+
+            alertTitle.textContent = title;
+            alertDesc.textContent = desc;
+        }
+
+        // Manejo de Bloqueo Visual
+        function checkAndRenderLockout() {
+            const status = window.Auth.getLockoutStatus();
+            if (status.isLocked) {
+                btnSubmit.disabled = true;
+                btnSubmit.classList.add('opacity-50', 'cursor-not-allowed');
+                lockoutProgress.classList.remove('hidden');
+
+                const totalLockTime = status.remainingSeconds > 60 ? 300 : 30;
+                let remaining = status.remainingSeconds;
+
+                showAlert('danger', 'Bloqueo Anti-Fuerza Bruta Activo', `Demasiados intentos erróneos. Espera ${remaining}s.`);
+
+                if (lockoutInterval) clearInterval(lockoutInterval);
+                lockoutInterval = setInterval(() => {
+                    remaining--;
+                    const pct = Math.max(0, (remaining / totalLockTime) * 100);
+                    lockoutBar.style.width = pct + '%';
+
+                    if (remaining <= 0) {
+                        clearInterval(lockoutInterval);
+                        btnSubmit.disabled = false;
+                        btnSubmit.classList.remove('opacity-50', 'cursor-not-allowed');
+                        lockoutProgress.classList.add('hidden');
+                        showAlert('info', 'Sistema Desbloqueado', 'Puedes ingresar tus credenciales nuevamente.');
+                    } else {
+                        alertDesc.textContent = `Demasiados intentos erróneos. Espera ${remaining}s.`;
+                    }
+                }, 1000);
+            } else {
+                btnSubmit.disabled = false;
+                btnSubmit.classList.remove('opacity-50', 'cursor-not-allowed');
+                lockoutProgress.classList.add('hidden');
+            }
+        }
+
+        // Revisar parámetros URL de alertas (e.g. sesión expirada o intento no autorizado)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('security_alert')) {
+            showAlert('danger', 'Acceso Denegado', decodeURIComponent(urlParams.get('security_alert')));
+        } else if (urlParams.get('reason')) {
+            showAlert('info', 'Sesión Concluida', decodeURIComponent(urlParams.get('reason')));
+        }
+
+        // Toggle Mostrar/Ocultar Contraseña
+        togglePasswordBtn.addEventListener('click', () => {
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+            eyeIcon.classList.toggle('fa-eye', !isPassword);
+            eyeIcon.classList.toggle('fa-eye-slash', isPassword);
+        });
+
+        // Auto-completar credenciales de Mike
+        quickFillBtn.addEventListener('click', () => {
+            usernameInput.value = 'mike';
+            passwordInput.value = 'Mike';
+            passwordInput.focus();
+        });
+
+        // Submit Formulario
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const user = usernameInput.value.trim();
+            const pass = passwordInput.value;
+
+            if (!user || !pass) {
+                showAlert('danger', 'Campos Incompletos', 'Por favor ingresa usuario y contraseña.');
+                return;
+            }
+
+            // Estado cargando
+            btnSubmit.disabled = true;
+            btnText.textContent = 'Verificando con Criptografía...';
+            btnSubmit.classList.add('opacity-75');
+
+            const result = await window.Auth.login(user, pass);
+
+            btnSubmit.disabled = false;
+            btnText.textContent = 'Iniciar Sesión Segura';
+            btnSubmit.classList.remove('opacity-75');
+
+            if (result.success) {
+                showAlert('success', 'Credenciales Validadas', 'Token HMAC generado con éxito. Redirigiendo al panel...');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 700);
+            } else {
+                showAlert('danger', 'Fallo de Autenticación', result.message);
+                checkAndRenderLockout();
+            }
+        });
+
+        // Modal de Información de Seguridad
+        const modal = document.getElementById('security-modal');
+        const openInfo = document.getElementById('open-security-info');
+        const closeInfo = document.getElementById('close-security-info');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        function toggleModal(show) {
+            modal.classList.toggle('active', show);
+        }
+
+        openInfo.addEventListener('click', () => toggleModal(true));
+        closeInfo.addEventListener('click', () => toggleModal(false));
+        closeModalBtn.addEventListener('click', () => toggleModal(false));
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) toggleModal(false);
+        });
+
+        // Dark / Light Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const htmlElement = document.documentElement;
+
+        function updateThemeIcon() {
+            if (htmlElement.classList.contains('dark')) {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            htmlElement.classList.add('dark');
+        } else {
+            htmlElement.classList.remove('dark');
+        }
+        updateThemeIcon();
+
+        themeToggle.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+            updateThemeIcon();
+        });
+
+        // Inicializar estado de lockout al cargar
+        checkAndRenderLockout();
+    </script>
+</body>
+
+</html>

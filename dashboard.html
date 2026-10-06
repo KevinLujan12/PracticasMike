@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="es" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control | Portal de Prácticas Profesionales</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        gold: {
+                            50: '#fbf9f2',
+                            100: '#f6f1df',
+                            200: '#eddcb7',
+                            300: '#e1c287',
+                            400: '#d4a557',
+                            500: '#bfa054',
+                            600: '#a3813b',
+                            700: '#84632f',
+                            800: '#6d4f2a',
+                            900: '#5a4125',
+                        },
+                        cream: '#FAF7F2',
+                        darkBg: '#0B0F17',
+                        cardDark: '#121824'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Auth Security Engine -->
+    <script src="auth.js"></script>
+    <script>
+        protectRoute();
+    </script>
+</head>
+
+<body
+    class="bg-[#FAF7F2] text-slate-800 dark:bg-[#0B0F17] dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-300 relative">
+
+    <!-- HAIRLINE SCROLL PROGRESS BAR -->
+    <div id="scroll-progress"></div>
+
+    <!-- AMBIENT FLOATING ORBS -->
+    <div class="orb w-96 h-96 bg-amber-500/20 -top-20 -left-20"></div>
+    <div class="orb w-[500px] h-[500px] bg-gold-400/15 top-1/3 -right-40" style="animation-delay: -6s;"></div>
+    <div class="orb w-80 h-80 bg-emerald-500/15 bottom-20 -left-20" style="animation-delay: -3s;"></div>
+
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <aside aria-label="Signature announcement"
+        class="relative z-10 bg-gradient-to-r from-amber-900 via-amber-800 to-amber-950 text-amber-100 py-1.5 px-4 text-xs tracking-wider border-b border-amber-700/40">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-2 mx-auto sm:mx-0">
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-gold-400 animate-ping"></span>
+                <span class="font-light">Panel Central de Prácticas Académicas:</span>
+                <span class="font-bold tracking-widest text-gold-300 uppercase">Kevin Lujan & Mauricio Prieto</span>
+            </div>
+            <div class="hidden sm:flex items-center gap-4 text-amber-200/80 font-medium text-[11px]">
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-clock text-gold-400"></i> Sesión Segura Activa</span>
+                <span class="text-amber-600">|</span>
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield text-emerald-400"></i> OWASP Blindado</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- HEADER DE NAVEGACIÓN -->
+    <header class="glass-panel sticky top-0 z-40 border-b border-amber-900/10 dark:border-amber-400/10 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- LOGO / BRAND -->
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-white shadow-md shadow-amber-600/20">
+                    <i class="fa-solid fa-layer-group text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-serif text-2xl font-bold tracking-tight text-slate-900 dark:text-white leading-none">
+                        Prácticas<span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-gold-500">Hub</span>
+                    </h1>
+                    <p class="text-[11px] tracking-wider text-slate-500 dark:text-slate-400 font-medium uppercase mt-0.5">
+                        Suite Central de Demostración
+                    </p>
+                </div>
+            </div>
+
+            <!-- PERFIL DE USUARIO & ACCIONES -->
+            <div class="flex items-center gap-2 sm:gap-4">
+                <!-- User Badge -->
+                <div class="hidden md:flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-amber-50/80 dark:bg-slate-800/80 border border-amber-300/40 dark:border-slate-700">
+                    <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-amber-600 to-gold-400 flex items-center justify-center text-[10px] text-white font-bold">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <span id="user-display-name" class="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                        Administrador
+                    </span>
+                </div>
+
+                <!-- Enlace Privacidad -->
+                <a href="privacy.html"
+                    class="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-gold-400 transition-colors">
+                    <i class="fa-solid fa-shield-halved text-amber-600 dark:text-amber-400"></i>
+                    <span class="hidden lg:inline">Privacidad</span>
+                </a>
+
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle"
+                    class="w-10 h-10 rounded-xl bg-amber-50 hover:bg-amber-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-amber-300 transition-all flex items-center justify-center border border-amber-200/50 dark:border-slate-700"
+                    aria-label="Alternar tema">
+                    <i id="theme-icon" class="fa-solid fa-moon text-base"></i>
+                </button>
+
+                <!-- Logout Button -->
+                <button id="btn-logout"
+                    class="btn-gold text-xs py-2 px-3.5 rounded-xl flex items-center gap-1.5 shadow-sm"
+                    title="Cerrar sesión segura">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span class="hidden sm:inline">Cerrar Sesión</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow space-y-8">
+
+        <!-- HERO WELCOME BANNER -->
+        <section
+            class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-amber-900 via-stone-900 to-amber-950 text-white p-8 sm:p-10 shadow-2xl border border-amber-700/30">
+            <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-10 -top-10 w-60 h-60 bg-gold-400/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="relative z-10 max-w-3xl">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/20 border border-amber-400/30 text-gold-300 text-xs font-semibold uppercase tracking-wider mb-4">
+                    <i class="fa-solid fa-sparkles text-[10px]"></i> Ecosistema Académico Unificado
+                </div>
+                <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-3">
+                    Bienvenido al Panel de Prácticas
+                </h2>
+                <p class="text-amber-100/80 text-sm sm:text-base leading-relaxed font-light mb-6">
+                    Acceso autorizado a las prácticas de <strong>Kevin Lujan</strong> y <strong>Mauricio Prieto</strong>. Ambas plataformas se encuentran sincronizadas bajo una misma identidad visual de alta gama, navegación cruzada y protección integral contra vulnerabilidades OWASP.
+                </p>
+
+                <!-- SECURITY PILL STATS -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                    <div class="bg-black/30 backdrop-blur-md p-3 rounded-xl border border-amber-500/20">
+                        <span class="text-amber-400 text-[10px] font-bold uppercase tracking-wider block">Token JWT</span>
+                        <span class="text-white font-semibold flex items-center gap-1.5 mt-0.5">
+                            <i class="fa-solid fa-circle-check text-emerald-400 text-[11px]"></i> HMAC-SHA256
+                        </span>
+                    </div>
+                    <div class="bg-black/30 backdrop-blur-md p-3 rounded-xl border border-amber-500/20">
+                        <span class="text-amber-400 text-[10px] font-bold uppercase tracking-wider block">Fuerza Bruta</span>
+                        <span class="text-white font-semibold flex items-center gap-1.5 mt-0.5">
+                            <i class="fa-solid fa-lock text-emerald-400 text-[11px]"></i> Vigilante Activo
+                        </span>
+                    </div>
+                    <div class="bg-black/30 backdrop-blur-md p-3 rounded-xl border border-amber-500/20">
+                        <span class="text-amber-400 text-[10px] font-bold uppercase tracking-wider block">Clickjacking</span>
+                        <span class="text-white font-semibold flex items-center gap-1.5 mt-0.5">
+                            <i class="fa-solid fa-shield text-emerald-400 text-[11px]"></i> Frame-Busting
+                        </span>
+                    </div>
+                    <div class="bg-black/30 backdrop-blur-md p-3 rounded-xl border border-amber-500/20">
+                        <span class="text-amber-400 text-[10px] font-bold uppercase tracking-wider block">Inactividad</span>
+                        <span class="text-white font-semibold flex items-center gap-1.5 mt-0.5">
+                            <i class="fa-solid fa-stopwatch text-emerald-400 text-[11px]"></i> Límite 15 min
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE LAS PRÁCTICAS (CARDS PRINCIPALES) -->
+        <section class="space-y-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="font-serif text-2xl font-bold text-slate-900 dark:text-white">
+                        Módulos de Práctica Disponibles
+                    </h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                        Selecciona el proyecto que deseas explorar o evaluar
+                    </p>
+                </div>
+                <span class="text-xs font-semibold px-3 py-1.5 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-300/40">
+                    2 Proyectos Activos
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                <!-- TARJETA 1: POTATOHUB -->
+                <article
+                    class="glass-card overflow-hidden flex flex-col group border border-amber-200/40 dark:border-slate-800 hover:border-amber-400 transition-all duration-300">
+                    <!-- Banner Visual -->
+                    <div class="h-48 relative overflow-hidden bg-slate-900">
+                        <img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=1000&q=80"
+                            alt="PotatoHub Gourmet Selection"
+                            class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#121824] via-black/40 to-transparent"></div>
+
+                        <div class="absolute top-4 left-4 flex gap-2">
+                            <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-600 text-white shadow-md">
+                                Práctica Frontend
+                            </span>
+                            <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-black/60 backdrop-blur-md text-gold-300 border border-amber-500/30">
+                                Gourmet Edition
+                            </span>
+                        </div>
+
+                        <div class="absolute bottom-3 left-4 right-4 flex items-end justify-between text-white">
+                            <div>
+                                <p class="text-[11px] text-amber-300 font-semibold uppercase tracking-wider">Kevin Lujan & Mauricio Prieto</p>
+                                <h4 class="font-serif text-2xl font-bold">PotatoHub — Gourmet Selection</h4>
+                            </div>
+                            <span class="w-10 h-10 rounded-xl bg-amber-600/90 backdrop-blur-md flex items-center justify-center text-white text-lg shadow-lg">
+                                <i class="fa-solid fa-seedling"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Contenido Informativo -->
+                    <div class="p-6 sm:p-7 flex-grow flex flex-col justify-between space-y-5">
+                        <div>
+                            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                                Plataforma de catálogo gastronómico artesanal con 3 métodos interactivos de búsqueda y filtrado en tiempo real:
+                            </p>
+                            <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-300">
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-amber-600 dark:text-amber-400 text-[11px]"></i>
+                                    <span><strong>Método 1 (Búsqueda Simple):</strong> Coincidencia instantánea con botón de búsqueda.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-amber-600 dark:text-amber-400 text-[11px]"></i>
+                                    <span><strong>Método 2 (Autocompletado):</strong> Dropdown predictivo dinámico y selección rápida.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-amber-600 dark:text-amber-400 text-[11px]"></i>
+                                    <span><strong>Método 3 (Filtros Facetados):</strong> Filtrado reactivo por tipo de almidón y ordenamiento por precio.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-amber-600 dark:text-amber-400 text-[11px]"></i>
+                                    <span><strong>Carrito Interactivo:</strong> Drawer lateral con conteo en vivo, control de cantidades y checkout demo.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Botones de Acción -->
+                        <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex flex-wrap items-center gap-3">
+                            <a href="practicas/Potato/index.html"
+                                class="btn-gold flex-grow text-xs py-3 rounded-xl justify-center">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                <span>Abrir PotatoHub</span>
+                            </a>
+                            <button onclick="showInfoModal('potato')"
+                                class="btn-outline text-xs py-3 px-4 rounded-xl">
+                                <i class="fa-solid fa-circle-info"></i>
+                                <span>Detalles</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- TARJETA 2: HOLLOW EARTH THEORY -->
+                <article
+                    class="glass-card overflow-hidden flex flex-col group border border-amber-200/40 dark:border-slate-800 hover:border-amber-400 transition-all duration-300">
+                    <!-- Banner Visual -->
+                    <div class="h-48 relative overflow-hidden bg-slate-900">
+                        <img src="https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?auto=format&fit=crop&w=1000&q=80"
+                            alt="Hollow Earth Theory"
+                            class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#121824] via-black/40 to-transparent"></div>
+
+                        <div class="absolute top-4 left-4 flex gap-2">
+                            <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-600 text-white shadow-md">
+                                Práctica Académica
+                            </span>
+                            <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-black/60 backdrop-blur-md text-emerald-300 border border-emerald-500/30">
+                                Earth Theory
+                            </span>
+                        </div>
+
+                        <div class="absolute bottom-3 left-4 right-4 flex items-end justify-between text-white">
+                            <div>
+                                <p class="text-[11px] text-emerald-300 font-semibold uppercase tracking-wider">Kevin Eduardo Lujan Prado</p>
+                                <h4 class="font-serif text-2xl font-bold">Hollow Earth Theory</h4>
+                            </div>
+                            <span class="w-10 h-10 rounded-xl bg-emerald-600/90 backdrop-blur-md flex items-center justify-center text-white text-lg shadow-lg">
+                                <i class="fa-solid fa-earth-americas"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Contenido Informativo -->
+                    <div class="p-6 sm:p-7 flex-grow flex flex-col justify-between space-y-5">
+                        <div>
+                            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                                Monografía web de divulgación científica construida bajo la arquitectura obligatoria de los 4 contenedores principales:
+                            </p>
+                            <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-300">
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-600 dark:text-emerald-400 text-[11px]"></i>
+                                    <span><strong>Navbar Superior:</strong> Marca institucional, enlaces de ancla (#overview, #history, #science).</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-600 dark:text-emerald-400 text-[11px]"></i>
+                                    <span><strong>Sidebar Lateral:</strong> Tarjetas de datos rápidos (Quick Facts) y ficha de autoría académica.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-600 dark:text-emerald-400 text-[11px]"></i>
+                                    <span><strong>Contenedor Principal (Main):</strong> Desmitificación geológica mediante ondas sísmicas P y S y gravedad.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-600 dark:text-emerald-400 text-[11px]"></i>
+                                    <span><strong>Maqueta Wireframe:</strong> Página dedicada de esquema estructural preliminar.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Botones de Acción con rutas relativas exactas -->
+                        <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex flex-wrap items-center gap-3">
+                            <a href="practicas/Kevin_Eduardo_Lujan_Prado_Earth_Theory (1)/Kevin_Eduardo_Lujan_Prado_Earth_Theory/index.html"
+                                class="btn-gold flex-grow text-xs py-3 rounded-xl justify-center bg-gradient-to-r from-emerald-600 to-emerald-800 hover:from-emerald-700 hover:to-emerald-900">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                <span>Abrir Investigación</span>
+                            </a>
+                            <a href="practicas/Kevin_Eduardo_Lujan_Prado_Earth_Theory (1)/Kevin_Eduardo_Lujan_Prado_Earth_Theory/wireframe.html"
+                                class="btn-outline text-xs py-3 px-4 rounded-xl">
+                                <i class="fa-solid fa-sitemap"></i>
+                                <span>Wireframe</span>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- AUDITORÍA DE SEGURIDAD & SESIÓN EN VIVO -->
+        <section class="glass-card p-6 sm:p-8">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-gold-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white">
+                            Monitor de Integridad & Auditoría de Sesión
+                        </h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                            Verificación criptográfica en tiempo real sobre el entorno LocalStorage
+                        </p>
+                    </div>
+                </div>
+
+                <button id="btn-refresh-session"
+                    class="btn-outline text-xs py-2 px-3.5 rounded-xl self-start sm:self-auto flex items-center gap-2">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                    <span>Verificar Firma HMAC</span>
+                </button>
+            </div>
+
+            <!-- Terminal de Diagnóstico de Token -->
+            <div class="bg-slate-900 text-slate-100 rounded-xl p-4 font-mono text-xs overflow-x-auto border border-slate-800 space-y-2">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-2 text-slate-400 text-[11px]">
+                    <span class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span>SESSION_TOKEN_INSPECTOR</span>
+                    </span>
+                    <span id="session-time-remaining" class="text-amber-400 font-bold">Expira en: 01:59:45</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 pt-1 text-[11px]">
+                    <div>
+                        <span class="text-slate-400 block">Encabezado (Algoritmo):</span>
+                        <span class="text-emerald-400 font-semibold">{ alg: "HS256", typ: "JWT" }</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block">Carga Útil (Usuario / Rol):</span>
+                        <span id="token-payload-preview" class="text-gold-300 font-semibold">Cargando...</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block">Firma HMAC-SHA256:</span>
+                        <span id="token-sig-preview" class="text-purple-300 font-semibold truncate block">Validada</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bitácora de Eventos de Seguridad -->
+            <div class="mt-5">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-amber-500"></i> Eventos Recientes de Seguridad Registrados
+                </h4>
+                <div id="audit-events-list" class="space-y-2 max-h-48 overflow-y-auto">
+                    <!-- Eventos inyectados por JS -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="mt-auto py-8 border-t border-amber-200/40 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400 bg-white/50 dark:bg-[#0d121c]/50 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-amber-600 flex items-center justify-center text-white text-xs">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+                <div>
+                    <span class="font-serif font-bold text-slate-900 dark:text-white">Portal de Prácticas</span>
+                    <span class="block text-[11px] text-slate-400">Kevin Lujan & Mauricio Prieto</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <a href="privacy.html" class="hover:text-amber-600 dark:hover:text-gold-400 transition-colors">Política de Privacidad</a>
+                <span>•</span>
+                <a href="practicas/Potato/index.html" class="hover:text-amber-600 dark:hover:text-gold-400 transition-colors">PotatoHub</a>
+                <span>•</span>
+                <a href="practicas/Kevin_Eduardo_Lujan_Prado_Earth_Theory (1)/Kevin_Eduardo_Lujan_Prado_Earth_Theory/index.html" class="hover:text-amber-600 dark:hover:text-gold-400 transition-colors">Earth Theory</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL DE DETALLES TÉCNICOS -->
+    <div id="info-modal" class="drawer-backdrop flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-[#121824] rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-amber-300/40 dark:border-amber-500/30 relative text-left">
+            <button id="close-modal-btn" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-800 dark:hover:text-white flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-gold-400 flex items-center justify-center">
+                    <i id="modal-icon" class="fa-solid fa-circle-info text-lg"></i>
+                </div>
+                <div>
+                    <h3 id="modal-title" class="font-serif text-xl font-bold text-slate-900 dark:text-white">Detalles del Módulo</h3>
+                    <p id="modal-subtitle" class="text-xs text-slate-500">Arquitectura y Especificaciones</p>
+                </div>
+            </div>
+            <div id="modal-body" class="space-y-3 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                <!-- Contenido dinámico -->
+            </div>
+            <div class="mt-6 text-right">
+                <button onclick="document.getElementById('info-modal').classList.remove('active')" class="btn-gold text-xs py-2 px-5">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT DEL DASHBOARD -->
+    <script>
+        // Actualizar datos del usuario actual
+        const currentUser = window.Auth.getCurrentUser();
+        if (currentUser) {
+            document.getElementById('user-display-name').textContent = currentUser.displayName || currentUser.username;
+        }
+
+        // Logout
+        document.getElementById('btn-logout').addEventListener('click', () => {
+            if (confirm('¿Deseas cerrar la sesión segura?')) {
+                window.Auth.logout('Cierre de sesión manual');
+            }
+        });
+
+        // Inspeccionar Token y Actualizar UI
+        function inspectToken() {
+            const token = sessionStorage.getItem('auth_jwt_token') || sessionStorage.getItem('auth_token') || localStorage.getItem('auth_jwt_token');
+            if (!token) return;
+
+            try {
+                const parts = token.split('.');
+                if (parts.length === 3) {
+                    const payload = JSON.parse(atob(parts[1]));
+                    document.getElementById('token-payload-preview').textContent = `{ sub: "${payload.sub}", role: "${payload.role}" }`;
+                    document.getElementById('token-sig-preview').textContent = parts[2].substring(0, 16) + '... (Validada HMAC)';
+
+                    const now = Date.now();
+                    const diffMs = Math.max(0, payload.exp - now);
+                    const hours = Math.floor(diffMs / (1000 * 60 * 60));
+                    const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((diffMs % (1000 * 60)) / 1000);
+                    document.getElementById('session-time-remaining').textContent = 
+                        `Expira en: ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                } else {
+                    const payload = JSON.parse(atob(token));
+                    document.getElementById('token-payload-preview').textContent = `{ user: "${payload.user}" }`;
+                    document.getElementById('token-sig-preview').textContent = 'Token Básico';
+                }
+            } catch (e) {
+                console.error('Error inspeccionando token:', e);
+            }
+        }
+
+        // Renderizar Bitácora de Eventos de Seguridad
+        function renderAuditLogs() {
+            const logsContainer = document.getElementById('audit-events-list');
+            const logs = window.Auth.getAuditLogs();
+
+            if (logs.length === 0) {
+                logsContainer.innerHTML = '<p class="text-xs text-slate-400 italic">No hay eventos recientes registrados.</p>';
+                return;
+            }
+
+            logsContainer.innerHTML = logs.slice(0, 5).map(log => {
+                let badgeClass = 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800';
+                if (log.type.includes('LOCKOUT') || log.type.includes('TAMPERING')) {
+                    badgeClass = 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40 border-red-200 dark:border-red-800';
+                } else if (log.type.includes('FAILED')) {
+                    badgeClass = 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800';
+                }
+
+                return `
+                    <div class="flex items-center justify-between p-2.5 rounded-xl bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60 text-xs">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase border ${badgeClass}">
+                                ${log.type}
+                            </span>
+                            <span class="text-slate-700 dark:text-slate-300 font-medium">${log.details}</span>
+                        </div>
+                        <span class="text-slate-400 text-[11px]">${new Date(log.timestamp).toLocaleTimeString()}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Botón Refrescar Verificación
+        document.getElementById('btn-refresh-session').addEventListener('click', async () => {
+            const btn = document.getElementById('btn-refresh-session');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span>Verificando...</span>';
+            const token = sessionStorage.getItem('auth_jwt_token') || sessionStorage.getItem('auth_token') || localStorage.getItem('auth_jwt_token');
+            const check = await window.Auth.verifyToken(token);
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i><span>Verificar Firma HMAC</span>';
+                if (check.valid) {
+                    alert('✓ Integridad Criptográfica Verificada: El token no ha sido alterado y la firma HMAC-SHA256 coincide.');
+                } else {
+                    alert('⚠ Alerta de Seguridad: ' + check.reason);
+                }
+                inspectToken();
+                renderAuditLogs();
+            }, 400);
+        });
+
+        // Modal de Información
+        const infoModal = document.getElementById('info-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalSubtitle = document.getElementById('modal-subtitle');
+        const modalBody = document.getElementById('modal-body');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        function showInfoModal(type) {
+            if (type === 'potato') {
+                modalTitle.textContent = 'PotatoHub — Gourmet Selection';
+                modalSubtitle.textContent = 'Autores: Kevin Lujan & Mauricio Prieto';
+                modalBody.innerHTML = `
+                    <p><strong>Arquitectura:</strong> Vanilla JS con Tailwind CSS y Google Fonts.</p>
+                    <p><strong>Búsqueda Facetada:</strong> Filtra simultáneamente por consultas de texto y taxonomía de almidón (High Starch, Medium Starch, Low Starch, Specialty).</p>
+                    <p><strong>Búsqueda Predictiva:</strong> Dropdown con debounce para autocompletar nombres de variedades gastronómicas.</p>
+                    <p><strong>Carrito y Pedidos:</strong> Módulo de reserva interactivo con almacenamiento dinámico en memoria y sincronización de cantidades.</p>
+                `;
+            }
+            infoModal.classList.add('active');
+        }
+
+        closeModalBtn.addEventListener('click', () => infoModal.classList.remove('active'));
+        infoModal.addEventListener('click', (e) => {
+            if (e.target === infoModal) infoModal.classList.remove('active');
+        });
+
+        // Dark / Light Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const htmlElement = document.documentElement;
+
+        function updateThemeIcon() {
+            if (htmlElement.classList.contains('dark')) {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            htmlElement.classList.add('dark');
+        } else {
+            htmlElement.classList.remove('dark');
+        }
+        updateThemeIcon();
+
+        themeToggle.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+            updateThemeIcon();
+        });
+
+        inspectToken();
+        renderAuditLogs();
+        setInterval(inspectToken, 1000);
+
+        // Micro-animación 3D Tilt táctil para tarjetas Glass
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                card.style.transform = `perspective(1000px) rotateX(${(-y / 45).toFixed(2)}deg) rotateY(${(x / 45).toFixed(2)}deg) translateY(-6px) scale(1.01)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+
+        // Indicador de Progreso de Lectura Scroll
+        window.addEventListener('scroll', () => {
+            const h = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = h > 0 ? (window.scrollY / h) * 100 : 0;
+            const bar = document.getElementById('scroll-progress');
+            if (bar) bar.style.width = progress + '%';
+        }, { passive: true });
+    </script>
+</body>
+
+</html>

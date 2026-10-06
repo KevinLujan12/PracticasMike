@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PotatoHub — Gourmet Selection by Kevin Lujan & Mauricio Prieto</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../auth.js"></script>
+    <script>protectRoute();</script>
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        gold: {
+                            50: '#fbf9f2',
+                            100: '#f6f1df',
+                            200: '#eddcb7',
+                            300: '#e1c287',
+                            400: '#d4a557',
+                            500: '#bfa054',
+                            600: '#a3813b',
+                            700: '#84632f',
+                            800: '#6d4f2a',
+                            900: '#5a4125',
+                        },
+                        cream: '#FAF7F2',
+                        darkBg: '#0B0F17',
+                        cardDark: '#121824'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome 6 Pro-style icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Card entrance smooth animation */
+        .card-enter {
+            opacity: 0;
+            transform: translateY(16px);
+            animation: elegantFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes elegantFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Ambient subtle gold glow */
+        .gold-glow {
+            box-shadow: 0 0 25px -5px rgba(212, 165, 87, 0.25);
+        }
+
+        /* Glassmorphism effects */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .dark .glass-panel {
+            background: rgba(18, 24, 36, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* Elegant scrollbars */
+        ::-webkit-scrollbar {
+            width: 7px;
+            height: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f5f2ea;
+        }
+
+        .dark ::-webkit-scrollbar-track {
+            background: #0d121c;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #d4a557;
+            border-radius: 9999px;
+        }
+
+        .dark ::-webkit-scrollbar-thumb {
+            background: #6d4f2a;
+        }
+
+        /* Autocomplete dropdown max height & scroll */
+        .autocomplete-dropdown {
+            max-height: 280px;
+            overflow-y: auto;
+        }
+
+        /* Signature badge shimmer */
+        .badge-shimmer {
+            background: linear-gradient(90deg, rgba(212, 165, 87, 0.1) 0%, rgba(212, 165, 87, 0.3) 50%, rgba(212, 165, 87, 0.1) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 4s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+    </style>
+</head>
+
+<body
+    class="bg-[#FAF7F2] text-slate-800 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col font-sans selection:bg-gold-200 selection:text-gold-900 relative">
+
+    <!-- HAIRLINE SCROLL PROGRESS BAR -->
+    <div id="scroll-progress"></div>
+
+    <!-- AMBIENT FLOATING ORBS -->
+    <div class="orb w-96 h-96 bg-amber-500/20 -top-20 -left-20"></div>
+    <div class="orb w-[500px] h-[500px] bg-gold-400/15 top-1/3 -right-40" style="animation-delay: -5s;"></div>
+
+    <!-- TOP ANNOUNCEMENT BAR / NOTABLE SIGNATURE -->
+    <aside aria-label="Signature announcement"
+        class="relative z-10 bg-gradient-to-r from-amber-900 via-amber-800 to-amber-950 text-amber-100 py-1.5 px-4 text-xs tracking-wider border-b border-amber-700/40">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-2 mx-auto sm:mx-0">
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-gold-400 animate-ping"></span>
+                <span class="font-light">Special Edition & Exclusive Design:</span>
+                <span class="font-bold tracking-widest text-gold-300 uppercase">Kevin Lujan & Mauricio Prieto</span>
+            </div>
+            <div class="hidden sm:flex items-center gap-4 text-amber-200/80 font-medium">
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-gem text-[10px] text-gold-400"></i>
+                    Gourmet Quality</span>
+                <span class="text-amber-600">|</span>
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-leaf text-[10px] text-emerald-400"></i>
+                    100% Organic</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- LUXURY HEADER -->
+    <header
+        class="glass-panel sticky top-0 z-50 border-b border-amber-900/10 dark:border-amber-400/10 transition-colors duration-300 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+
+            <!-- BRAND LOGO -->
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-white shadow-md shadow-amber-600/20">
+                    <i class="fa-solid fa-seedling text-xl"></i>
+                </div>
+                <div>
+                    <h1
+                        class="font-serif text-2xl font-bold tracking-tight text-slate-900 dark:text-white leading-none">
+                        Potato<span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-gold-500">Hub</span>
+                    </h1>
+                    <p
+                        class="text-[11px] tracking-wider text-slate-500 dark:text-slate-400 font-medium uppercase mt-0.5">
+                        Artisanal Potato Reserve
+                    </p>
+                </div>
+            </div>
+
+            <!-- CURATOR PILL BADGE -->
+            <div
+                class="hidden md:flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-amber-400/30 bg-amber-50/70 dark:bg-amber-950/40 dark:border-amber-500/20 shadow-sm">
+                <div class="flex -space-x-1.5">
+                    <div
+                        class="w-6 h-6 rounded-full bg-gradient-to-tr from-amber-600 to-gold-400 flex items-center justify-center text-[10px] text-white font-bold ring-2 ring-white dark:ring-slate-900">
+                        KL
+                    </div>
+                    <div
+                        class="w-6 h-6 rounded-full bg-gradient-to-tr from-gold-500 to-amber-800 flex items-center justify-center text-[10px] text-white font-bold ring-2 ring-white dark:ring-slate-900">
+                        MP
+                    </div>
+                </div>
+                <div class="text-left">
+                    <span class="text-xs font-semibold text-slate-800 dark:text-slate-200">Kevin Lujan & Mauricio
+                        Prieto</span>
+                </div>
+            </div>
+
+            <!-- ACTIONS (CROSS-NAV, THEME TOGGLE, CART COUNTER, LOGOUT) -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Back to Dashboard -->
+                <a href="../../dashboard.html"
+                    class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-gold-400 border border-amber-200/50 dark:border-slate-700 hover:border-amber-400 transition-all bg-white/50 dark:bg-slate-800/50"
+                    title="Volver al panel principal">
+                    <i class="fa-solid fa-grip text-amber-600 dark:text-gold-400"></i>
+                    <span class="hidden md:inline">Dashboard</span>
+                </a>
+
+                <!-- Cross Link to Earth Theory -->
+                <a href="../Kevin_Eduardo_Lujan_Prado_Earth_Theory (1)/Kevin_Eduardo_Lujan_Prado_Earth_Theory/index.html"
+                    class="hidden lg:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 border border-amber-200/50 dark:border-slate-700 hover:border-emerald-500 transition-all bg-white/50 dark:bg-slate-800/50"
+                    title="Ir a Práctica: Teoría de la Tierra">
+                    <i class="fa-solid fa-earth-americas text-emerald-500"></i>
+                    <span>Earth Theory</span>
+                </a>
+
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle"
+                    class="w-10 h-10 rounded-xl bg-amber-50 hover:bg-amber-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-amber-300 transition-all flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-sm border border-amber-200/50 dark:border-slate-700"
+                    aria-label="Toggle theme">
+                    <i id="theme-icon" class="fa-solid fa-moon text-base"></i>
+                </button>
+
+                <!-- Mini Cart Indicator (Opens Drawer) -->
+                <button id="cart-btn"
+                    class="relative w-10 h-10 rounded-xl bg-amber-50 hover:bg-amber-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-amber-300 transition-all flex items-center justify-center border border-amber-200/50 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    title="Ver canasta de reserva">
+                    <i class="fa-solid fa-bag-shopping text-base"></i>
+                    <span id="cart-counter"
+                        class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-amber-600 text-white text-[10px] font-bold flex items-center justify-center shadow">0</span>
+                </button>
+
+                <!-- Logout Button -->
+                <button onclick="logout('Cierre de sesión desde PotatoHub')"
+                    class="px-3 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 transition-all flex items-center gap-1.5 shadow-sm"
+                    title="Cerrar sesión">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span class="hidden sm:inline">Salir</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-4 w-full">
+        <div
+            class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-amber-900 via-stone-900 to-amber-950 text-white p-8 md:p-10 shadow-xl border border-amber-700/30">
+            <!-- Decorative Glow Background -->
+            <div
+                class="absolute -right-20 -bottom-20 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none">
+            </div>
+            <div class="absolute -left-10 -top-10 w-60 h-60 bg-gold-400/10 rounded-full blur-3xl pointer-events-none">
+            </div>
+
+            <div class="relative z-10 max-w-2xl">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/30 text-gold-300 text-xs font-medium uppercase tracking-wider mb-4">
+                    <i class="fa-solid fa-crown text-[10px]"></i> Exclusive Culinary Collection
+                </div>
+                <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-3">
+                    World's Finest Potato Varieties
+                </h2>
+                <p class="text-amber-100/80 text-sm sm:text-base leading-relaxed mb-6 font-light">
+                    Explore advanced search methods to discover premium potatoes tailored to your culinary profile,
+                    texture, and starch content.
+                </p>
+                <div class="flex flex-wrap items-center gap-4 text-xs text-amber-200/90 font-medium">
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-check-circle text-amber-400"></i>
+                        Real-Time Search</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-check-circle text-amber-400"></i>
+                        Faceted Filters</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-check-circle text-amber-400"></i>
+                        Reactive Autocomplete</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex flex-col lg:flex-row gap-8">
+
+        <!-- SIDEBAR: Search Controls -->
+        <aside class="w-full lg:w-1/3 flex flex-col gap-6">
+
+            <!-- Tab Selector -->
+            <section
+                class="bg-white dark:bg-[#121824] p-2.5 rounded-2xl shadow-sm border border-amber-200/40 dark:border-slate-800">
+                <nav class="flex flex-col space-y-1.5" aria-label="Search methods tabs">
+                    <button onclick="switchTab('simple')" id="tab-simple"
+                        class="tab-btn bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-300 px-4 py-3.5 rounded-xl text-left font-medium transition-all flex items-center justify-between border border-amber-300/40 dark:border-amber-500/20 shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <span
+                                class="w-7 h-7 rounded-lg bg-amber-200/70 dark:bg-amber-900/60 flex items-center justify-center text-xs font-bold text-amber-800 dark:text-amber-200">1</span>
+                            <span class="font-semibold text-sm">Simple Search</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-xs text-amber-600 dark:text-amber-400"></i>
+                    </button>
+
+                    <button onclick="switchTab('auto')" id="tab-auto"
+                        class="tab-btn text-slate-600 dark:text-slate-300 hover:bg-amber-50/60 dark:hover:bg-slate-800 px-4 py-3.5 rounded-xl text-left font-medium transition-all flex items-center justify-between border border-transparent">
+                        <div class="flex items-center gap-3">
+                            <span
+                                class="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-bold text-slate-600 dark:text-slate-400">2</span>
+                            <span class="font-semibold text-sm">Autocomplete</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-xs opacity-0"></i>
+                    </button>
+
+                    <button onclick="switchTab('facet')" id="tab-facet"
+                        class="tab-btn text-slate-600 dark:text-slate-300 hover:bg-amber-50/60 dark:hover:bg-slate-800 px-4 py-3.5 rounded-xl text-left font-medium transition-all flex items-center justify-between border border-transparent">
+                        <div class="flex items-center gap-3">
+                            <span
+                                class="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-bold text-slate-600 dark:text-slate-400">3</span>
+                            <span class="font-semibold text-sm">Faceted Search</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-xs opacity-0"></i>
+                    </button>
+                </nav>
+            </section>
+
+            <!-- Search Panels Card -->
+            <div
+                class="bg-white dark:bg-[#121824] rounded-2xl shadow-sm border border-amber-200/40 dark:border-slate-800 p-6 relative">
+
+                <!-- METHOD 1: SIMPLE SEARCH -->
+                <section id="panel-simple" class="search-panel block">
+                    <div class="flex items-center gap-2 mb-2">
+                        <i class="fa-solid fa-magnifying-glass text-amber-600 dark:text-amber-400"></i>
+                        <h3 class="text-base font-bold font-serif text-slate-900 dark:text-white">Direct Search</h3>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mb-5 leading-relaxed">
+                        Enter a variety name, culinary use, or category. Press Enter or click Search to view results.
+                    </p>
+
+                    <div class="flex flex-col gap-3">
+                        <label for="simple-input" class="sr-only">Search potatoes</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-search absolute left-3.5 top-3.5 text-slate-400 text-sm"></i>
+                            <input type="text" id="simple-input" placeholder="e.g. Russet, Sweet Potato, Mashing..."
+                                class="w-full pl-10 pr-4 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50/50 dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-slate-800 transition-all text-sm placeholder:text-slate-400">
+                        </div>
+
+                        <button id="simple-btn"
+                            class="w-full bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-medium py-2.5 px-4 rounded-xl transition-all shadow-md shadow-amber-600/20 flex items-center justify-center gap-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 active:scale-[0.99]">
+                            <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                            <span>Search Catalog</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- METHOD 2: AUTOCOMPLETE SEARCH -->
+                <section id="panel-auto" class="search-panel hidden relative">
+                    <div class="flex items-center gap-2 mb-2">
+                        <i class="fa-solid fa-bolt text-amber-600 dark:text-amber-400"></i>
+                        <h3 class="text-base font-bold font-serif text-slate-900 dark:text-white">Predictive
+                            Autocomplete</h3>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mb-5 leading-relaxed">
+                        Instantly displays suggestions dynamically in real time as you type each character.
+                    </p>
+
+                    <div class="relative">
+                        <label for="auto-input" class="sr-only">Type to autocomplete</label>
+                        <div class="relative">
+                            <i
+                                class="fa-solid fa-wand-magic-sparkles absolute left-3.5 top-3.5 text-slate-400 text-sm"></i>
+                            <input type="text" id="auto-input" placeholder="Start typing a variety name..."
+                                autocomplete="off"
+                                class="w-full pl-10 pr-4 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50/50 dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-slate-800 transition-all text-sm placeholder:text-slate-400">
+                        </div>
+
+                        <!-- Dropdown Container -->
+                        <ul id="auto-dropdown"
+                            class="autocomplete-dropdown hidden absolute z-20 w-full mt-2 bg-white dark:bg-[#151c2c] border border-amber-200/50 dark:border-slate-700 rounded-xl shadow-xl divide-y divide-slate-100 dark:divide-slate-800">
+                            <!-- Options injected via JS -->
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- METHOD 3: FACETED SEARCH -->
+                <section id="panel-facet" class="search-panel hidden">
+                    <div class="flex items-center gap-2 mb-2">
+                        <i class="fa-solid fa-sliders text-amber-600 dark:text-amber-400"></i>
+                        <h3 class="text-base font-bold font-serif text-slate-900 dark:text-white">Faceted Filters</h3>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mb-5 leading-relaxed">
+                        Combine multi-faceted criteria: starch level, keywords, and instant sorting orders.
+                    </p>
+
+                    <form id="facet-form" class="space-y-5" onsubmit="event.preventDefault();">
+                        <!-- Text Search -->
+                        <div>
+                            <label for="facet-input"
+                                class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">
+                                Keyword
+                            </label>
+                            <input type="text" id="facet-input" placeholder="Name, culinary use, or recipe..."
+                                class="w-full px-3.5 py-2 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50/50 dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm transition-all">
+                        </div>
+
+                        <hr class="border-slate-100 dark:border-slate-800">
+
+                        <!-- Filter: Categories (Checkboxes) -->
+                        <div>
+                            <div class="flex items-center justify-between mb-2.5">
+                                <span
+                                    class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
+                                    Starch Category
+                                </span>
+                                <span
+                                    class="text-[10px] text-amber-700 dark:text-amber-400 font-medium">Multi-select</span>
+                            </div>
+                            <div class="space-y-2 bg-slate-50/60 dark:bg-slate-800/40 p-3 rounded-xl border border-slate-100 dark:border-slate-800"
+                                id="category-filters">
+                                <!-- Generated dynamically via JS -->
+                            </div>
+                        </div>
+
+                        <hr class="border-slate-100 dark:border-slate-800">
+
+                        <!-- Filter: Sorting (Select) -->
+                        <div>
+                            <label for="facet-sort"
+                                class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">
+                                Sort by
+                            </label>
+                            <div class="relative">
+                                <select id="facet-sort"
+                                    class="w-full px-3.5 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50/50 dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm transition-all appearance-none cursor-pointer">
+                                    <option value="relevance">Featured Relevance</option>
+                                    <option value="price-asc">Price: Low to High</option>
+                                    <option value="price-desc">Price: High to Low</option>
+                                    <option value="rating-desc">Top Rated (★)</option>
+                                </select>
+                                <i
+                                    class="fa-solid fa-chevron-down absolute right-3.5 top-3.5 text-xs text-slate-400 pointer-events-none"></i>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+
+            <!-- CURATOR CARD -->
+            <div
+                class="rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50/40 dark:from-[#151c2c] dark:to-[#0f1422] p-5 border border-amber-200/50 dark:border-slate-800 flex items-center gap-4">
+                <div class="flex -space-x-2 shrink-0">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 to-gold-400 text-white flex items-center justify-center font-serif text-xs font-bold shadow-md shadow-amber-600/20 ring-2 ring-white dark:ring-slate-800">
+                        KL
+                    </div>
+                    <div
+                        class="w-10 h-10 rounded-xl bg-gradient-to-tr from-gold-500 to-amber-800 text-white flex items-center justify-center font-serif text-xs font-bold shadow-md shadow-amber-600/20 ring-2 ring-white dark:ring-slate-800">
+                        MP
+                    </div>
+                </div>
+                <div>
+                    <span
+                        class="text-[10px] uppercase font-bold tracking-widest text-amber-700 dark:text-amber-400 block mb-0.5">Design
+                        & Presentation</span>
+                    <h4 class="text-sm font-bold text-slate-900 dark:text-white leading-tight">KEVIN LUJAN & MAURICIO
+                        PRIETO</h4>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Refined & interactive gourmet
+                        experience</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT: Results Area -->
+        <section class="w-full lg:w-2/3 flex flex-col">
+
+            <!-- Result Header Bar -->
+            <div class="flex items-center justify-between mb-6 pb-4 border-b border-amber-200/30 dark:border-slate-800">
+                <div>
+                    <h3 class="text-2xl font-bold font-serif tracking-tight text-slate-900 dark:text-white">
+                        Gourmet Catalog
+                    </h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                        Displaying hand-selected varieties with certified culinary heritage
+                    </p>
+                </div>
+                <span id="results-count"
+                    class="bg-amber-100/80 text-amber-900 dark:bg-amber-950/60 dark:text-amber-300 text-xs font-semibold px-3.5 py-1.5 rounded-full border border-amber-300/40 dark:border-amber-500/30 shadow-sm">
+                    0 items
+                </span>
+            </div>
+
+            <!-- Products Grid -->
+            <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Cards injected here via JS -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state"
+                class="hidden flex-col items-center justify-center py-20 text-center bg-white dark:bg-[#121824] rounded-2xl border border-dashed border-amber-200 dark:border-slate-800 p-8">
+                <div
+                    class="w-16 h-16 rounded-full bg-amber-50 dark:bg-slate-800 flex items-center justify-center text-amber-600 dark:text-amber-400 text-2xl mb-4">
+                    <i class="fa-solid fa-basket-shopping"></i>
+                </div>
+                <h4 class="font-serif text-xl font-bold text-slate-800 dark:text-slate-200 mb-1">No potatoes found</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-400 max-w-sm mb-4">
+                    No varieties match your selected criteria. Try adjusting your search terms or clearing filters.
+                </p>
+                <button onclick="switchTab('simple')"
+                    class="text-xs font-semibold text-amber-600 dark:text-amber-400 hover:underline">
+                    Reset search
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast"
+        class="fixed bottom-6 right-6 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none z-50 flex items-center gap-3 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-5 py-3.5 rounded-xl shadow-2xl border border-amber-500/30">
+        <i class="fa-solid fa-circle-check text-amber-400 text-base"></i>
+        <div>
+            <p id="toast-title" class="text-xs font-bold">Added to Basket</p>
+            <p id="toast-desc" class="text-[11px] text-slate-300 dark:text-slate-600">Variety reserved successfully</p>
+        </div>
+    </div>
+
+    <!-- CART SLIDE-OVER DRAWER -->
+    <div id="cart-drawer-backdrop" class="drawer-backdrop">
+        <div class="drawer-panel p-6">
+            <div class="flex items-center justify-between pb-4 border-b border-amber-200/40 dark:border-slate-800">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-amber-600 text-white flex items-center justify-center text-sm">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white">Gourmet Basket</h3>
+                        <p class="text-[11px] text-slate-500">Reserved culinary varieties</p>
+                    </div>
+                </div>
+                <button id="close-cart-btn" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-800 dark:hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Items List -->
+            <div id="cart-items-container" class="flex-grow py-4 overflow-y-auto space-y-3">
+                <!-- Dynamic cart items -->
+            </div>
+
+            <!-- Cart Footer -->
+            <div class="pt-4 border-t border-amber-200/40 dark:border-slate-800 space-y-3">
+                <div class="flex items-center justify-between text-sm">
+                    <span class="text-slate-500 dark:text-slate-400">Total Reserve:</span>
+                    <span id="cart-total-price" class="font-serif text-xl font-bold text-slate-900 dark:text-white">$0.00</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <button id="clear-cart-btn" class="btn-outline text-xs py-2.5 rounded-xl justify-center">
+                        Vaciar
+                    </button>
+                    <button id="checkout-btn" class="btn-gold text-xs py-2.5 rounded-xl justify-center">
+                        Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TERMS MODAL -->
+    <div id="terms-modal" class="drawer-backdrop flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-[#121824] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-amber-300/40 dark:border-amber-500/30 text-left">
+            <h3 class="font-serif text-lg font-bold mb-2 text-slate-900 dark:text-white">Términos de Servicio & Uso</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                Esta aplicación constituye una entrega académica oficial de desarrollo web con filtrado facetado y búsqueda avanzada. Todas las reservas son simuladas sin transacciones financieras reales.
+            </p>
+            <div class="text-right">
+                <button onclick="document.getElementById('terms-modal').classList.remove('active')" class="btn-gold text-xs py-2 px-4">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- INQUIRIES MODAL -->
+    <div id="inquiries-modal" class="drawer-backdrop flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-[#121824] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-amber-300/40 dark:border-amber-500/30 text-left">
+            <h3 class="font-serif text-lg font-bold mb-2 text-slate-900 dark:text-white">Consultas & Contacto Directo</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 mb-3 leading-relaxed">
+                Para consultas sobre esta práctica o colaboración de proyectos de diseño web y desarrollo de software:
+            </p>
+            <div class="bg-amber-50/70 dark:bg-slate-800/50 p-3 rounded-xl border border-amber-200/40 dark:border-slate-700 text-xs mb-4 space-y-1">
+                <p><strong>Autores:</strong> Kevin Lujan & Mauricio Prieto</p>
+                <p><strong>Especialidad:</strong> Desarrollo Frontend & Interfaces Gourmet</p>
+                <p><strong>Ciclo:</strong> Prácticas Profesionales 2026</p>
+            </div>
+            <div class="text-right">
+                <button onclick="document.getElementById('inquiries-modal').classList.remove('active')" class="btn-gold text-xs py-2 px-4">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHECKOUT CONFIRMATION MODAL -->
+    <div id="checkout-modal" class="drawer-backdrop flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-[#121824] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-amber-300/40 dark:border-amber-500/30 text-center">
+            <div class="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl mx-auto mb-3">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h3 class="font-serif text-xl font-bold mb-1 text-slate-900 dark:text-white">¡Reserva Gourmet Confirmada!</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 mb-4">
+                Tu solicitud de selección artesanal ha sido registrada en el simulador de pedidos de PotatoHub.
+            </p>
+            <button onclick="document.getElementById('checkout-modal').classList.remove('active')" class="btn-gold text-xs py-2 px-6">Aceptar</button>
+        </div>
+    </div>
+
+    <!-- LUXURY FOOTER WITH NOTABLE CREDITS -->
+    <footer
+        class="mt-auto border-t border-amber-200/50 dark:border-slate-800/80 bg-white/60 dark:bg-[#0d121c]/80 backdrop-blur-md py-10 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+
+                <!-- Brand Info -->
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-amber-600 flex items-center justify-center text-white text-sm">
+                        <i class="fa-solid fa-seedling"></i>
+                    </div>
+                    <div>
+                        <span class="font-serif font-bold text-slate-900 dark:text-white text-base">PotatoHub</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400 block">The Artisanal Selection & Search
+                            Suite</span>
+                    </div>
+                </div>
+
+                <!-- NOTABLE DESIGNER & DEVELOPER CREDIT -->
+                <div class="text-center md:text-right">
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100/60 dark:bg-amber-950/60 border border-amber-300/50 dark:border-amber-500/30 mb-1.5">
+                        <i class="fa-solid fa-award text-amber-600 dark:text-amber-400 text-xs"></i>
+                        <span class="text-xs font-bold uppercase tracking-wider text-amber-900 dark:text-amber-200">
+                            KEVIN LUJAN & MAURICIO PRIETO
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                        High-end web design & development edition • 2026
+                    </p>
+                </div>
+            </div>
+
+            <div
+                class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800/60 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+                <p>© 2026 PotatoHub. All rights reserved.</p>
+                <div class="flex items-center gap-6">
+                    <span onclick="document.getElementById('terms-modal').classList.add('active')" class="hover:text-amber-600 cursor-pointer transition-colors">Terms of Service</span>
+                    <a href="../../privacy.html" class="hover:text-amber-600 cursor-pointer transition-colors">Privacy Policy</a>
+                    <span onclick="document.getElementById('inquiries-modal').classList.add('active')" class="hover:text-amber-600 cursor-pointer transition-colors">Direct Inquiries</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* 
+         * DATA SET POTATOS BY MIKE 
+         */
+        const potatoDataset = [
+            {
+                id: 1,
+                name: "Russet Burbank",
+                category: "High Starch",
+                skinColor: "Brown",
+                bestUse: "Baking & French Fries",
+                pricePerLb: 1.20,
+                rating: 4.8
+            },
+            {
+                id: 2,
+                name: "Yukon Gold",
+                category: "Medium Starch",
+                skinColor: "Yellow",
+                bestUse: "Mashing & Roasting",
+                pricePerLb: 1.50,
+                rating: 4.9
+            },
+            {
+                id: 3,
+                name: "Red Bliss",
+                category: "Low Starch",
+                skinColor: "Red",
+                bestUse: "Boiling & Potato Salads",
+                pricePerLb: 1.35,
+                rating: 4.5
+            },
+            {
+                id: 4,
+                name: "Fingerling French",
+                category: "Low Starch",
+                skinColor: "Pink",
+                bestUse: "Roasting & Grilling",
+                pricePerLb: 2.80,
+                rating: 4.6
+            },
+            {
+                id: 5,
+                name: "Purple Majesty",
+                category: "Medium Starch",
+                skinColor: "Purple",
+                bestUse: "Steaming & Salads",
+                pricePerLb: 2.20,
+                rating: 4.4
+            },
+            {
+                id: 6,
+                name: "Kennebec",
+                category: "High Starch",
+                skinColor: "Tan",
+                bestUse: "Frying & Chips",
+                pricePerLb: 1.10,
+                rating: 4.7
+            },
+            {
+                id: 7,
+                name: "All Blue",
+                category: "Medium Starch",
+                skinColor: "Blue",
+                bestUse: "Mashing & Roasting",
+                pricePerLb: 2.50,
+                rating: 4.2
+            },
+            {
+                id: 8,
+                name: "Norland Red",
+                category: "Low Starch",
+                skinColor: "Red",
+                bestUse: "Boiling & Steam",
+                pricePerLb: 1.40,
+                rating: 4.3
+            },
+            {
+                id: 9,
+                name: "German Butterball",
+                category: "Medium Starch",
+                skinColor: "Yellow",
+                bestUse: "Steaming & Baking",
+                pricePerLb: 1.95,
+                rating: 4.8
+            },
+            {
+                id: 10,
+                name: "Jewel Sweet Potato",
+                category: "Specialty",
+                skinColor: "Orange",
+                bestUse: "Baking & Pies",
+                pricePerLb: 1.60,
+                rating: 4.7
+            }
+        ];
+
+        // Culinary visual enhancements (HD photography, verified origin, and tasting notes)
+        const visualEnhancements = {
+            1: { image: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=600&q=80", origin: "Idaho, USA", notes: "Rough netted skin and fluffy texture ideal for crispy golden fries and baked dishes." },
+            2: { image: "https://images.unsplash.com/photo-1590165482129-1b8b27698980?auto=format&fit=crop&w=600&q=80", origin: "Ontario, Canada", notes: "Natural buttery richness and a velvety texture unmatched for decadent mashing." },
+            3: { image: "https://images.unsplash.com/photo-1582515073490-39981397c445?auto=format&fit=crop&w=600&q=80", origin: "North Dakota, USA", notes: "Firm waxy structure that holds its shape beautifully in gourmet potato salads." },
+            4: { image: "https://images.unsplash.com/photo-1508747703725-719777637510?auto=format&fit=crop&w=600&q=80", origin: "Loire Valley, France", notes: "Distinctive slender shape with pink skin and delicate nutty undertones." },
+            5: { image: "https://images.unsplash.com/photo-1596560548464-f010549b84d7?auto=format&fit=crop&w=600&q=80", origin: "Colorado, USA", notes: "Striking deep purple hue packed with natural antioxidants and anthocyanins." },
+            6: { image: "https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=600&q=80", origin: "Maine, USA", notes: "The chef's gold standard for artisanal potato chips and pristine frying." },
+            7: { image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80", origin: "Andean Region", notes: "Vibrant sapphire-blue flesh that retains its noble coloration after roasting." },
+            8: { image: "https://images.unsplash.com/photo-1563865436874-9aef32095fad?auto=format&fit=crop&w=600&q=80", origin: "Nebraska, USA", notes: "Glossy red skin and tender flesh perfect for delicate steaming without peeling." },
+            9: { image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=600&q=80", origin: "Bavaria, Germany", notes: "Exceptionally creamy and rich flesh that shines in gratins and roasting." },
+            10: { image: "https://images.unsplash.com/photo-1596097635121-14b63b7a0c19?auto=format&fit=crop&w=600&q=80", origin: "North Carolina, USA", notes: "Vibrant copper flesh deeply sweet and silky when caramelized in the oven." }
+        };
+
+        const potatoes = potatoDataset.map(item => ({
+            ...item,
+            ...(visualEnhancements[item.id] || {
+                image: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=600&q=80",
+                origin: "Selected Reserve",
+                notes: "Premium variety hand-picked for exquisite culinary quality."
+            })
+        }));
+
+        let filteredPotatoes = [...potatoes];
+        let cartCount = 0;
+
+        // DOM Elements
+        const grid = document.getElementById('product-grid');
+        const countBadge = document.getElementById('results-count');
+        const emptyState = document.getElementById('empty-state');
+        const cartBadge = document.getElementById('cart-counter');
+        const toast = document.getElementById('toast');
+        const toastTitle = document.getElementById('toast-title');
+        const toastDesc = document.getElementById('toast-desc');
+
+        function showToast(title, desc) {
+            toastTitle.textContent = title;
+            toastDesc.textContent = desc;
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 2500);
+        }
+
+        let cartItems = [];
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items-container');
+            const totalDisplay = document.getElementById('cart-total-price');
+            const totalCount = cartItems.reduce((acc, item) => acc + item.qty, 0);
+            cartBadge.textContent = totalCount;
+
+            if (cartItems.length === 0) {
+                container.innerHTML = `
+                    <div class="py-12 text-center text-slate-400">
+                        <i class="fa-solid fa-basket-shopping text-3xl mb-2 text-slate-300 dark:text-slate-600"></i>
+                        <p class="text-xs">Your basket is currently empty.</p>
+                    </div>
+                `;
+                totalDisplay.textContent = '$0.00';
+                return;
+            }
+
+            let total = 0;
+            container.innerHTML = cartItems.map((item, idx) => {
+                const sub = item.price * item.qty;
+                total += sub;
+                return `
+                    <div class="flex items-center justify-between p-3 rounded-xl bg-amber-50/50 dark:bg-slate-800/60 border border-amber-200/40 dark:border-slate-700">
+                        <div class="flex items-center gap-2.5">
+                            <img src="${item.image}" alt="${item.name}" class="w-10 h-10 rounded-lg object-cover">
+                            <div>
+                                <h5 class="text-xs font-bold text-slate-900 dark:text-white">${item.name}</h5>
+                                <span class="text-[11px] text-amber-700 dark:text-amber-400 font-serif">$${item.price.toFixed(2)}/lb</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex items-center border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden bg-white dark:bg-slate-900">
+                                <button onclick="changeCartQty(${idx}, -1)" class="px-2 py-0.5 text-xs text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">-</button>
+                                <span class="px-2 text-xs font-bold">${item.qty}</span>
+                                <button onclick="changeCartQty(${idx}, 1)" class="px-2 py-0.5 text-xs text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">+</button>
+                            </div>
+                            <button onclick="removeCartItem(${idx})" class="text-red-500 hover:text-red-700 text-xs p-1">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            totalDisplay.textContent = `$${total.toFixed(2)}`;
+        }
+
+        function changeCartQty(index, delta) {
+            if (cartItems[index]) {
+                const newQty = (cartItems[index].qty || 0) + delta;
+                if (newQty <= 0) {
+                    cartItems.splice(index, 1);
+                } else if (newQty > 99) {
+                    cartItems[index].qty = 99;
+                } else {
+                    cartItems[index].qty = newQty;
+                }
+                updateCartUI();
+            }
+        }
+
+        function removeCartItem(index) {
+            if (index >= 0 && index < cartItems.length) {
+                cartItems.splice(index, 1);
+                updateCartUI();
+            }
+        }
+
+        function addToCart(potatoName, price) {
+            if (!potatoName || typeof price !== 'number' || isNaN(price) || price <= 0) return;
+            const existing = cartItems.find(i => i.name === potatoName);
+            if (existing) {
+                if (existing.qty < 99) existing.qty++;
+            } else {
+                const p = potatoes.find(item => item.name === potatoName) || { image: '' };
+                cartItems.push({
+                    name: String(potatoName).substring(0, 50),
+                    price: Number(price.toFixed(2)),
+                    qty: 1,
+                    image: p.image || ''
+                });
+            }
+            updateCartUI();
+            showToast(`${potatoName} reservada!`, `$${price.toFixed(2)} / lb agregada a tu canasta gourmet`);
+        }
+
+        function renderPotatoes(list) {
+            grid.innerHTML = '';
+            countBadge.textContent = `${list.length} item${list.length !== 1 ? 's' : ''}`;
+
+            if (list.length === 0) {
+                grid.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
+                return;
+            }
+
+            grid.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+            emptyState.classList.remove('flex');
+
+            list.forEach((potato, index) => {
+                const delay = index * 0.04;
+
+                // Color badge based on skin color
+                let skinColorBadge = 'bg-stone-100 text-stone-700 dark:bg-stone-800 dark:text-stone-300';
+                if (potato.skinColor === 'Red') skinColorBadge = 'bg-rose-100 text-rose-800 dark:bg-rose-950/50 dark:text-rose-300';
+                if (potato.skinColor === 'Pink') skinColorBadge = 'bg-pink-100 text-pink-800 dark:bg-pink-950/50 dark:text-pink-300';
+                if (potato.skinColor === 'Yellow') skinColorBadge = 'bg-amber-100 text-amber-800 dark:bg-amber-950/50 dark:text-amber-300';
+                if (potato.skinColor === 'Brown' || potato.skinColor === 'Tan') skinColorBadge = 'bg-amber-100 text-amber-900 dark:bg-amber-900/40 dark:text-amber-200';
+                if (potato.skinColor === 'Purple' || potato.skinColor === 'Blue') skinColorBadge = 'bg-purple-100 text-purple-800 dark:bg-purple-950/50 dark:text-purple-300';
+                if (potato.skinColor === 'Orange') skinColorBadge = 'bg-orange-100 text-orange-800 dark:bg-orange-950/50 dark:text-orange-300';
+
+                const card = document.createElement('article');
+                card.className = `card-enter bg-white dark:bg-[#121824] rounded-2xl shadow-sm hover:shadow-xl border border-amber-200/40 dark:border-slate-800 overflow-hidden transition-all duration-300 group flex flex-col hover:-translate-y-1`;
+                card.style.animationDelay = `${delay}s`;
+
+                card.innerHTML = `
+                    <div class="h-44 relative overflow-hidden bg-slate-100 dark:bg-slate-800">
+                        <img 
+                            src="${potato.image}" 
+                            alt="${potato.name}" 
+                            loading="lazy"
+                            class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=600&q=80';"
+                        >
+                        <!-- Gradient Overlay -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                        
+                        <!-- Badges Over Image -->
+                        <div class="absolute top-3 left-3 flex gap-2">
+                            <span class="text-[10px] font-bold uppercase tracking-wider bg-white/90 dark:bg-slate-900/90 backdrop-blur-md text-amber-800 dark:text-amber-300 px-2.5 py-1 rounded-full shadow-sm">
+                                ${potato.category}
+                            </span>
+                        </div>
+
+                        <div class="absolute top-3 right-3 bg-black/60 backdrop-blur-md text-gold-400 text-xs font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
+                            <i class="fa-solid fa-star text-[10px] text-amber-400"></i>
+                            <span>${potato.rating}</span>
+                        </div>
+
+                        <!-- Origin -->
+                        <div class="absolute bottom-2.5 left-3 text-white text-xs font-medium flex items-center gap-1.5 drop-shadow">
+                            <i class="fa-solid fa-location-dot text-gold-400 text-[11px]"></i>
+                            <span>${potato.origin}</span>
+                        </div>
+                    </div>
+
+                    <div class="p-5 flex-grow flex flex-col">
+                        <div class="flex items-baseline justify-between mb-1.5">
+                            <h4 class="text-lg font-bold font-serif text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                                ${potato.name}
+                            </h4>
+                        </div>
+                        
+                        <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mb-4 italic">
+                            "${potato.notes}"
+                        </p>
+
+                        <div class="space-y-2 mb-5 flex-grow text-xs text-slate-600 dark:text-slate-300 bg-amber-50/40 dark:bg-slate-800/50 p-3 rounded-xl border border-amber-100/60 dark:border-slate-800">
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-palette text-amber-600 dark:text-amber-400"></i> Skin:
+                                </span>
+                                <span class="font-semibold px-2 py-0.5 rounded text-[11px] ${skinColorBadge}">${potato.skinColor}</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-utensils text-amber-600 dark:text-amber-400"></i> Best for:
+                                </span>
+                                <span class="font-medium text-slate-800 dark:text-slate-200 text-right text-[11px]">${potato.bestUse}</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-100 dark:border-slate-800/80">
+                            <div>
+                                <span class="text-xs text-slate-400 block leading-tight">Reserve Price</span>
+                                <span class="text-xl font-bold font-serif text-slate-900 dark:text-white">
+                                    $${potato.pricePerLb.toFixed(2)}
+                                    <span class="text-xs text-slate-500 dark:text-slate-400 font-sans font-normal">/lb</span>
+                                </span>
+                            </div>
+                            <button 
+                                onclick="addToCart('${potato.name}', ${potato.pricePerLb})"
+                                class="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white text-xs px-4 py-2.5 rounded-xl font-semibold transition-all shadow-sm hover:shadow-md hover:shadow-amber-600/20 active:scale-95 flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                            >
+                                <i class="fa-solid fa-plus text-[10px]"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function switchTab(tabId) {
+            // Reset data and views
+            filteredPotatoes = [...potatoes];
+            renderPotatoes(filteredPotatoes);
+            clearForms();
+
+            // Update Tab button visual styles
+            const tabs = ['simple', 'auto', 'facet'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                const panel = document.getElementById(`panel-${t}`);
+                const icon = btn.querySelector('i');
+                const badge = btn.querySelector('span:first-child');
+
+                if (t === tabId) {
+                    btn.className = "tab-btn bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-300 px-4 py-3.5 rounded-xl text-left font-medium transition-all flex items-center justify-between border border-amber-300/40 dark:border-amber-500/20 shadow-sm";
+                    panel.classList.remove('hidden');
+                    icon.classList.remove('opacity-0');
+                    if (badge) {
+                        badge.className = "w-7 h-7 rounded-lg bg-amber-200/70 dark:bg-amber-900/60 flex items-center justify-center text-xs font-bold text-amber-800 dark:text-amber-200";
+                    }
+                } else {
+                    btn.className = "tab-btn text-slate-600 dark:text-slate-300 hover:bg-amber-50/60 dark:hover:bg-slate-800 px-4 py-3.5 rounded-xl text-left font-medium transition-all flex items-center justify-between border border-transparent";
+                    panel.classList.add('hidden');
+                    icon.classList.add('opacity-0');
+                    if (badge) {
+                        badge.className = "w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-bold text-slate-600 dark:text-slate-400";
+                    }
+                }
+            });
+        }
+
+        function clearForms() {
+            document.getElementById('simple-input').value = '';
+            document.getElementById('auto-input').value = '';
+            document.getElementById('auto-dropdown').classList.add('hidden');
+            document.getElementById('facet-input').value = '';
+            document.getElementById('facet-sort').value = 'relevance';
+            document.querySelectorAll('.cat-checkbox').forEach(cb => cb.checked = false);
+        }
+
+        /* METHOD 1: Simple Search */
+        const simpleInput = document.getElementById('simple-input');
+        const simpleBtn = document.getElementById('simple-btn');
+
+        function executeSimpleSearch() {
+            const query = simpleInput.value.toLowerCase().trim();
+            filteredPotatoes = potatoes.filter(p =>
+                p.name.toLowerCase().includes(query) ||
+                p.category.toLowerCase().includes(query) ||
+                p.bestUse.toLowerCase().includes(query) ||
+                p.skinColor.toLowerCase().includes(query) ||
+                p.notes.toLowerCase().includes(query)
+            );
+            renderPotatoes(filteredPotatoes);
+        }
+
+        simpleBtn.addEventListener('click', executeSimpleSearch);
+        simpleInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') executeSimpleSearch();
+        });
+
+        /* METHOD 2: Autocomplete */
+        const autoInput = document.getElementById('auto-input');
+        const autoDropdown = document.getElementById('auto-dropdown');
+
+        autoInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            autoDropdown.innerHTML = '';
+
+            if (query.length === 0) {
+                autoDropdown.classList.add('hidden');
+                filteredPotatoes = [...potatoes];
+                renderPotatoes(filteredPotatoes);
+                return;
+            }
+
+            const suggestions = potatoes.filter(p =>
+                p.name.toLowerCase().includes(query) ||
+                p.category.toLowerCase().includes(query) ||
+                p.bestUse.toLowerCase().includes(query)
+            );
+
+            if (suggestions.length > 0) {
+                autoDropdown.classList.remove('hidden');
+                suggestions.forEach(p => {
+                    const li = document.createElement('li');
+                    li.className = "px-4 py-3 hover:bg-amber-50/80 dark:hover:bg-slate-800/80 cursor-pointer flex items-center justify-between transition-colors";
+                    li.innerHTML = `
+                        <div class="flex items-center gap-3">
+                            <img src="${p.image}" class="w-9 h-9 rounded-lg object-cover shadow-xs border border-amber-200/40">
+                            <div class="flex flex-col text-left">
+                                <span class="font-medium text-xs text-slate-900 dark:text-white">${p.name}</span>
+                                <span class="text-[10px] text-slate-500 dark:text-slate-400">${p.category} • ${p.bestUse}</span>
+                            </div>
+                        </div>
+                        <span class="text-xs font-bold font-serif text-amber-700 dark:text-amber-400">$${p.pricePerLb.toFixed(2)}</span>
+                    `;
+                    li.addEventListener('click', () => {
+                        autoInput.value = p.name;
+                        autoDropdown.classList.add('hidden');
+                        filteredPotatoes = [p];
+                        renderPotatoes(filteredPotatoes);
+                    });
+                    autoDropdown.appendChild(li);
+                });
+            } else {
+                autoDropdown.classList.remove('hidden');
+                autoDropdown.innerHTML = `
+                    <li class="px-4 py-3 text-xs text-slate-500 text-center flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-exclamation text-amber-500"></i> No suggestions found
+                    </li>
+                `;
+                filteredPotatoes = [];
+                renderPotatoes(filteredPotatoes);
+            }
+        });
+
+        // Hide dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!autoInput.contains(e.target) && !autoDropdown.contains(e.target)) {
+                autoDropdown.classList.add('hidden');
+            }
+        });
+
+        /* METHOD 3: Faceted Search */
+        const facetInput = document.getElementById('facet-input');
+        const facetSort = document.getElementById('facet-sort');
+        const categoryContainer = document.getElementById('category-filters');
+
+        // Dynamically extract unique categories
+        const uniqueCategories = [...new Set(potatoes.map(p => p.category))];
+        uniqueCategories.forEach(cat => {
+            const id = `cat-${cat.toLowerCase().replace(/\s/g, '-')}`;
+            categoryContainer.innerHTML += `
+                <label for="${id}" class="flex items-center space-x-3 cursor-pointer group py-0.5">
+                    <input type="checkbox" id="${id}" value="${cat}" class="cat-checkbox w-4 h-4 text-amber-600 rounded border-slate-300 dark:border-slate-600 focus:ring-amber-500 dark:bg-slate-700 transition-colors">
+                    <span class="text-xs font-medium text-slate-700 dark:text-slate-300 group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors">${cat}</span>
+                </label>
+            `;
+        });
+
+        function executeFacetedSearch() {
+            const textQuery = facetInput.value.toLowerCase().trim();
+            const sortOption = facetSort.value;
+
+            const selectedCheckboxes = Array.from(document.querySelectorAll('.cat-checkbox:checked')).map(cb => cb.value);
+
+            filteredPotatoes = potatoes.filter(p => {
+                const matchesText = p.name.toLowerCase().includes(textQuery) ||
+                    p.bestUse.toLowerCase().includes(textQuery) ||
+                    p.notes.toLowerCase().includes(textQuery);
+                const matchesCategory = selectedCheckboxes.length === 0 || selectedCheckboxes.includes(p.category);
+                return matchesText && matchesCategory;
+            });
+
+            if (sortOption === 'price-asc') {
+                filteredPotatoes.sort((a, b) => a.pricePerLb - b.pricePerLb);
+            } else if (sortOption === 'price-desc') {
+                filteredPotatoes.sort((a, b) => b.pricePerLb - a.pricePerLb);
+            } else if (sortOption === 'rating-desc') {
+                filteredPotatoes.sort((a, b) => b.rating - a.rating);
+            }
+
+            renderPotatoes(filteredPotatoes);
+        }
+
+        facetInput.addEventListener('input', executeFacetedSearch);
+        facetSort.addEventListener('change', executeFacetedSearch);
+        categoryContainer.addEventListener('change', (e) => {
+            if (e.target.classList.contains('cat-checkbox')) {
+                executeFacetedSearch();
+            }
+        });
+
+        /* DARK / LIGHT THEME TOGGLE */
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const htmlElement = document.documentElement;
+
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            htmlElement.classList.add('dark');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        } else {
+            htmlElement.classList.remove('dark');
+            themeIcon.classList.replace('fa-sun', 'fa-moon');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.theme = 'light';
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.theme = 'dark';
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            }
+        });
+
+        // Cart Drawer Controls
+        const cartDrawer = document.getElementById('cart-drawer-backdrop');
+        const cartBtn = document.getElementById('cart-btn');
+        const closeCartBtn = document.getElementById('close-cart-btn');
+        const clearCartBtn = document.getElementById('clear-cart-btn');
+        const checkoutBtn = document.getElementById('checkout-btn');
+
+        cartBtn.addEventListener('click', () => {
+            updateCartUI();
+            cartDrawer.classList.add('active');
+        });
+
+        closeCartBtn.addEventListener('click', () => {
+            cartDrawer.classList.remove('active');
+        });
+
+        cartDrawer.addEventListener('click', (e) => {
+            if (e.target === cartDrawer) cartDrawer.classList.remove('active');
+        });
+
+        clearCartBtn.addEventListener('click', () => {
+            if (cartItems.length > 0 && confirm('¿Deseas vaciar la canasta?')) {
+                cartItems = [];
+                updateCartUI();
+            }
+        });
+
+        checkoutBtn.addEventListener('click', () => {
+            if (cartItems.length === 0) {
+                alert('La canasta está vacía. Selecciona al menos una variedad.');
+                return;
+            }
+            cartDrawer.classList.remove('active');
+            document.getElementById('checkout-modal').classList.add('active');
+            cartItems = [];
+            updateCartUI();
+        });
+
+        // Initialize display with all potatoes
+        window.onload = () => {
+            renderPotatoes(potatoes);
+            updateCartUI();
+        };
+
+        // Indicador de Progreso de Lectura Scroll
+        window.addEventListener('scroll', () => {
+            const h = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = h > 0 ? (window.scrollY / h) * 100 : 0;
+            const bar = document.getElementById('scroll-progress');
+            if (bar) bar.style.width = progress + '%';
+        }, { passive: true });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,400 @@
+/* ==============================================================================
+   UNIFIED LUXURY DESIGN SYSTEM — KEVIN LUJAN & MAURICIO PRIETO
+   Prácticas Profesionales: PotatoHub & Hollow Earth Theory
+   Edición Cinematográfica con Micro-Animaciones Premium
+   ============================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    /* Brand Colors - Luxury Gold & Warm Slate */
+    --gold-50: #fbf9f2;
+    --gold-100: #f6f1df;
+    --gold-200: #eddcb7;
+    --gold-300: #e1c287;
+    --gold-400: #d4a557;
+    --gold-500: #bfa054;
+    --gold-600: #a3813b;
+    --gold-700: #84632f;
+    --amber-600: #d97706;
+    --amber-700: #b45309;
+    --emerald-500: #10b981;
+    --emerald-600: #059669;
+
+    /* Base Theme Variables - Light */
+    --bg-main: #FAF7F2;
+    --bg-surface: #FFFFFF;
+    --bg-surface-elevated: #FFFFFF;
+    --bg-surface-subtle: #F5EFEB;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #64748B;
+    --border-subtle: rgba(212, 165, 87, 0.25);
+    --border-strong: rgba(212, 165, 87, 0.45);
+    --glass-bg: rgba(255, 255, 255, 0.82);
+    --glass-border: rgba(212, 165, 87, 0.3);
+    --card-shadow: 0 10px 30px -10px rgba(180, 130, 40, 0.12), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --gold-glow: 0 0 25px -5px rgba(212, 165, 87, 0.25);
+    --navbar-height: 80px;
+}
+
+html.dark, body.dark {
+    --bg-main: #0B0F17;
+    --bg-surface: #121824;
+    --bg-surface-elevated: #182030;
+    --bg-surface-subtle: #0F1522;
+    --text-primary: #F8FAFC;
+    --text-secondary: #CBD5E1;
+    --text-muted: #94A3B8;
+    --border-subtle: rgba(212, 165, 87, 0.15);
+    --border-strong: rgba(212, 165, 87, 0.35);
+    --glass-bg: rgba(18, 24, 36, 0.85);
+    --glass-border: rgba(212, 165, 87, 0.2);
+    --card-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(212, 165, 87, 0.1);
+    --gold-glow: 0 0 30px 2px rgba(212, 165, 87, 0.15);
+}
+
+/* Global Reset & Base */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.6;
+    transition: background-color 0.4s ease, color 0.4s ease;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* Typography Headings */
+h1, h2, h3, h4, .font-serif {
+    font-family: 'Playfair Display', Georgia, serif;
+    letter-spacing: -0.01em;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-main);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--gold-400);
+    border-radius: 9999px;
+}
+.dark ::-webkit-scrollbar-thumb {
+    background: var(--gold-600);
+}
+
+/* Hairline Scroll Progress Bar */
+#scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #d97706, #f59e0b, #fbbf24, #10b981);
+    z-index: 9999;
+    width: 0%;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px rgba(217, 119, 6, 0.6);
+}
+
+/* Glassmorphism Styles */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid var(--glass-border);
+    border-radius: 1.25rem;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-color 0.3s ease;
+    will-change: transform, box-shadow;
+}
+
+.glass-card:hover {
+    transform: translateY(-6px) scale(1.006);
+    box-shadow: 0 24px 48px -12px rgba(217, 119, 6, 0.22), 0 0 0 1px var(--gold-400);
+    border-color: var(--gold-400);
+}
+
+/* Ambient Floating Glowing Orbs */
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.55;
+    animation: orbFloat 14s ease-in-out infinite alternate;
+}
+
+.dark .orb {
+    opacity: 0.25;
+}
+
+@keyframes orbFloat {
+    0% {
+        transform: translate(0px, 0px) scale(1);
+    }
+    50% {
+        transform: translate(30px, -40px) scale(1.12);
+    }
+    100% {
+        transform: translate(-25px, 35px) scale(0.95);
+    }
+}
+
+/* Radar & Pulsing Halos */
+@keyframes radarPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.6);
+    }
+    70% {
+        box-shadow: 0 0 0 14px rgba(217, 119, 6, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(217, 119, 6, 0);
+    }
+}
+
+.radar-halo {
+    animation: radarPulse 2.4s infinite cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Shimmer & Ambient Animations */
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.badge-shimmer {
+    background: linear-gradient(90deg, rgba(212, 165, 87, 0.1) 0%, rgba(212, 165, 87, 0.4) 50%, rgba(212, 165, 87, 0.1) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 3.5s infinite linear;
+}
+
+@keyframes elegantFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: elegantFadeIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Staggered Entrance Animation Delays */
+.stagger-1 { animation-delay: 0.06s; }
+.stagger-2 { animation-delay: 0.14s; }
+.stagger-3 { animation-delay: 0.22s; }
+.stagger-4 { animation-delay: 0.30s; }
+
+/* Luxury Buttons with Light Sweep Ray */
+.btn-gold {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0.65rem 1.25rem;
+    border-radius: 0.75rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(217, 119, 6, 0.28);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-gold::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 35%;
+    height: 200%;
+    background: linear-gradient(
+        60deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.45) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(25deg);
+    transition: all 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+}
+
+.btn-gold:hover {
+    background: linear-gradient(135deg, #b45309 0%, #92400e 100%);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 24px rgba(217, 119, 6, 0.42);
+}
+
+.btn-gold:hover::after {
+    left: 140%;
+}
+
+.btn-gold:active {
+    transform: scale(0.97);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border-strong);
+    font-weight: 600;
+    padding: 0.65rem 1.25rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-outline:hover {
+    background: rgba(212, 165, 87, 0.15);
+    border-color: var(--gold-400);
+    color: var(--gold-600);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(212, 165, 87, 0.2);
+}
+
+.dark .btn-outline:hover {
+    color: var(--gold-300);
+}
+
+.btn-outline:active {
+    transform: scale(0.97);
+}
+
+/* Security Status Badges */
+.badge-security {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.badge-security.safe {
+    background: rgba(16, 185, 129, 0.15);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.dark .badge-security.safe {
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+    border-color: rgba(52, 211, 153, 0.4);
+}
+
+.badge-security.warning {
+    background: rgba(245, 158, 11, 0.15);
+    color: #d97706;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge-security.danger {
+    background: rgba(239, 68, 68, 0.15);
+    color: #dc2626;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Modal and Drawer Transitions with Spring Physics */
+.drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+}
+
+.drawer-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.drawer-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 440px;
+    background: var(--bg-surface);
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: -15px 0 40px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+}
+
+.drawer-backdrop.active .drawer-panel {
+    transform: translateX(0);
+}
+
+/* Spring Pop for Dialog Modals */
+.drawer-backdrop .bg-white,
+.drawer-backdrop .dark\:bg-\[\#121824\] {
+    transform: scale(0.92) translateY(12px);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+    opacity: 0;
+}
+
+.drawer-backdrop.active .bg-white,
+.drawer-backdrop.active .dark\:bg-\[\#121824\] {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+/* Interactive 3D Card Hover Float */
+[data-tilt] {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}

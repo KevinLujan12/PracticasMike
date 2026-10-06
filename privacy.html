@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidad & Seguridad | Portal de Prácticas</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        gold: {
+                            50: '#fbf9f2',
+                            100: '#f6f1df',
+                            200: '#eddcb7',
+                            300: '#e1c287',
+                            400: '#d4a557',
+                            500: '#bfa054',
+                            600: '#a3813b',
+                            700: '#84632f',
+                            800: '#6d4f2a',
+                            900: '#5a4125',
+                        },
+                        cream: '#FAF7F2',
+                        darkBg: '#0B0F17',
+                        cardDark: '#121824'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Auth Script -->
+    <script src="auth.js"></script>
+</head>
+
+<body
+    class="bg-[#FAF7F2] text-slate-800 dark:bg-[#0B0F17] dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-300 relative">
+
+    <!-- HAIRLINE SCROLL PROGRESS BAR -->
+    <div id="scroll-progress"></div>
+
+    <!-- AMBIENT FLOATING ORBS -->
+    <div class="orb w-96 h-96 bg-amber-500/20 -top-20 -left-20"></div>
+    <div class="orb w-[500px] h-[500px] bg-gold-400/15 top-1/3 -right-40" style="animation-delay: -5s;"></div>
+
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <aside aria-label="Signature announcement"
+        class="relative z-10 bg-gradient-to-r from-amber-900 via-amber-800 to-amber-950 text-amber-100 py-1.5 px-4 text-xs tracking-wider border-b border-amber-700/40">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-2 mx-auto sm:mx-0">
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-gold-400 animate-ping"></span>
+                <span class="font-light">Marco de Seguridad & Privacidad:</span>
+                <span class="font-bold tracking-widest text-gold-300 uppercase">Kevin Lujan & Mauricio Prieto</span>
+            </div>
+            <div class="hidden sm:flex items-center gap-4 text-amber-200/80 font-medium text-[11px]">
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-user-shield text-emerald-400"></i> Protección Integral</span>
+                <span class="text-amber-600">|</span>
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-lock text-gold-400"></i> Zero Third-Party Trackers</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- HEADER -->
+    <header class="glass-panel sticky top-0 z-40 border-b border-amber-900/10 dark:border-amber-400/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="dashboard.html" class="flex items-center gap-3 group">
+                    <div
+                        class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-white shadow-md shadow-amber-600/20 group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-file-shield text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-serif text-2xl font-bold tracking-tight text-slate-900 dark:text-white leading-none">
+                            Privacidad<span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-gold-500">&Gobernanza</span>
+                        </h1>
+                        <p class="text-[11px] tracking-wider text-slate-500 dark:text-slate-400 font-medium uppercase mt-0.5">
+                            Prácticas de Seguridad OWASP 2026
+                        </p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="flex items-center gap-3">
+                <a href="dashboard.html"
+                    class="btn-outline text-xs py-2 px-3.5 rounded-xl flex items-center gap-2">
+                    <i class="fa-solid fa-grip"></i>
+                    <span class="hidden sm:inline">Panel Principal</span>
+                </a>
+                <a href="login.html"
+                    class="btn-outline text-xs py-2 px-3.5 rounded-xl flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    <span class="hidden sm:inline">Login</span>
+                </a>
+
+                <button id="theme-toggle"
+                    class="w-10 h-10 rounded-xl bg-amber-50 hover:bg-amber-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-amber-300 transition-all flex items-center justify-center border border-amber-200/50 dark:border-slate-700"
+                    aria-label="Alternar tema">
+                    <i id="theme-icon" class="fa-solid fa-moon text-base"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6 w-full">
+        <div
+            class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-amber-900 via-stone-900 to-amber-950 text-white p-8 md:p-10 shadow-xl border border-amber-700/30">
+            <div class="relative z-10 max-w-3xl">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/30 text-gold-300 text-xs font-semibold uppercase tracking-wider mb-4">
+                    <i class="fa-solid fa-certificate text-[10px]"></i> Estándar de Ciberseguridad & Privacidad
+                </div>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-white mb-3">
+                    Política de Privacidad & Protección de Datos
+                </h2>
+                <p class="text-amber-100/80 text-sm sm:text-base leading-relaxed font-light mb-6">
+                    Este documento define el tratamiento ético de datos, mecanismos de mitigación de vulnerabilidades y la política de almacenamiento criptográfico aplicada en las prácticas desarrolladas por <strong>Kevin Lujan</strong> y <strong>Mauricio Prieto</strong>.
+                </p>
+                <div class="flex flex-wrap items-center gap-4 text-xs text-amber-200/90 font-medium">
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-check text-emerald-400"></i> Cifrado HMAC-SHA256</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-lock text-emerald-400"></i> OWASP Top 10 Aligned</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-database text-emerald-400"></i> Almacenamiento Local Soberano</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTENT SECTIONS -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-grow space-y-6">
+
+        <!-- CARD 1: ALCANCE & PRINCIPIOS -->
+        <article class="glass-card p-6 sm:p-8">
+            <div class="flex items-center gap-3.5 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-gold-400 flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-landmark"></i>
+                </div>
+                <div>
+                    <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white">1. Principios de Privacidad y Ámbito de Aplicación</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Compromiso con el principio de minimización de datos</p>
+                </div>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
+                Nuestras aplicaciones (<strong>PotatoHub — Gourmet Selection</strong> y <strong>Hollow Earth Theory Research</strong>) operan bajo el estricto principio de <em>"Privacy by Design and by Default"</em>. No recopilamos, transmitimos ni comercializamos datos personales de identificación con ningún servidor externo o intermediario publicitario.
+            </p>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                Toda la información de sesión, credenciales operativas simuladas y preferencias visuales (como el modo oscuro) reside exclusivamente en el entorno de almacenamiento de su propio navegador web (LocalStorage del cliente).
+            </p>
+        </article>
+
+        <!-- CARD 2: TOKEN JWT & SEGURIDAD CRIPTOGRÁFICA -->
+        <article class="glass-card p-6 sm:p-8">
+            <div class="flex items-center gap-3.5 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-gold-400 flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-key"></i>
+                </div>
+                <div>
+                    <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white">2. Autenticación Criptográfica & Tokens Web (JWT)</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Estructura, firma digital e integridad contra adulteraciones</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                <div class="p-4 rounded-xl bg-white/70 dark:bg-slate-800/60 border border-amber-200/40 dark:border-slate-700">
+                    <h4 class="font-bold text-amber-900 dark:text-gold-300 mb-1 flex items-center gap-1.5">
+                        <i class="fa-solid fa-fingerprint"></i> Firma HMAC-SHA256
+                    </h4>
+                    <p class="text-slate-600 dark:text-slate-300">
+                        Cada token emitido cuenta con un hash criptográfico computado a través de la Web Crypto API nativa de JavaScript. Cualquier intento de alterar manualmente los atributos (por ejemplo, escalar privilegios a Administrador) romperá la concordancia de la firma, invalidando la sesión al instante.
+                    </p>
+                </div>
+                <div class="p-4 rounded-xl bg-white/70 dark:bg-slate-800/60 border border-amber-200/40 dark:border-slate-700">
+                    <h4 class="font-bold text-amber-900 dark:text-gold-300 mb-1 flex items-center gap-1.5">
+                        <i class="fa-solid fa-hourglass-half"></i> Expiración y Rotación
+                    </h4>
+                    <p class="text-slate-600 dark:text-slate-300">
+                        Los tokens poseen un ciclo de vida acotado a 2 horas (<code>exp</code> timestamp). Adicionalmente, el detector de inactividad revoca la credencial si el usuario no interactúa con la plataforma durante más de 15 minutos continuos.
+                    </p>
+                </div>
+            </div>
+        </article>
+
+        <!-- CARD 3: MITIGACIONES OWASP CONTRA ATAQUES FRECUENTES -->
+        <article class="glass-card p-6 sm:p-8">
+            <div class="flex items-center gap-3.5 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-gold-400 flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-shield-virus"></i>
+                </div>
+                <div>
+                    <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white">3. Mitigación contra los Ataques más Frecuentes (OWASP Top 10)</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Defensas activas incorporadas en el núcleo de la aplicación</p>
+                </div>
+            </div>
+            <div class="space-y-3 text-xs sm:text-sm">
+                <div class="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+                    <span class="w-6 h-6 rounded-lg bg-red-100 dark:bg-red-950/60 text-red-600 dark:text-red-400 flex items-center justify-center text-xs font-bold shrink-0">1</span>
+                    <div>
+                        <strong class="text-slate-900 dark:text-white block font-semibold">Prevención de Ataques de Fuerza Bruta (Brute-Force & Credential Stuffing)</strong>
+                        <span class="text-slate-600 dark:text-slate-300">Monitoreo continuo de tentativas de acceso. Se aplica bloqueo temporal forzoso tras 5 intentos fallidos consecutivos, acompañado de un delay de protección anti-timing para frustrar bots.</span>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+                    <span class="w-6 h-6 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xs font-bold shrink-0">2</span>
+                    <div>
+                        <strong class="text-slate-900 dark:text-white block font-semibold">Prevención de Secuestro de Clics (Clickjacking Shield)</strong>
+                        <span class="text-slate-600 dark:text-slate-300">Reglas estrictas <code>X-Frame-Options: DENY</code> y directivas <code>frame-ancestors 'none'</code> en Content-Security-Policy junto con scripts de escape <em>frame-busting</em> que imposibilitan embeber el portal en iframes encubiertos.</span>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+                    <span class="w-6 h-6 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xs font-bold shrink-0">3</span>
+                    <div>
+                        <strong class="text-slate-900 dark:text-white block font-semibold">Sanitización de Entradas (XSS & Injection Prevention)</strong>
+                        <span class="text-slate-600 dark:text-slate-300">Todos los campos de búsqueda, filtros de texto y entradas de formulario son codificados y neutralizados mediante entidades HTML seguras antes de su procesamiento o renderizado.</span>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+                    <span class="w-6 h-6 rounded-lg bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xs font-bold shrink-0">4</span>
+                    <div>
+                        <strong class="text-slate-900 dark:text-white block font-semibold">Cabeceras HTTP de Alta Seguridad en Producción (Vercel Edge)</strong>
+                        <span class="text-slate-600 dark:text-slate-300">Configuración completa de <code>Content-Security-Policy</code>, <code>X-Content-Type-Options: nosniff</code>, <code>Referrer-Policy: strict-origin-when-cross-origin</code> y <code>Strict-Transport-Security (HSTS)</code>.</span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- CARD 4: SOBERANÍA Y PURGA DE DATOS LOCALES -->
+        <article class="glass-card p-6 sm:p-8">
+            <div class="flex items-center justify-between flex-wrap gap-4 mb-4">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-950/60 text-red-600 dark:text-red-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white">4. Control Total y Purga Inmediata de Datos</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Derecho a la eliminación absoluta de sesiones y cachés locales</p>
+                    </div>
+                </div>
+                <button id="btn-purge-data"
+                    class="bg-red-600 hover:bg-red-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-all shadow-md shadow-red-600/20 active:scale-95 flex items-center gap-2">
+                    <i class="fa-solid fa-broom"></i>
+                    <span>Purgar todos mis datos locales ahora</span>
+                </button>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                Usted posee control soberano sobre su terminal. Al presionar el botón de purga, se eliminarán de forma irreversible todos los tokens JWT, bitácoras de auditoría, bloqueos de seguridad y preferencias de interfaz guardadas en este navegador, redirigiéndole a una sesión completamente limpia.
+            </p>
+            <div id="purge-notification" class="hidden mt-4 p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200 text-xs flex items-center gap-2">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>Datos locales purgados correctamente. Reiniciando entorno...</span>
+            </div>
+        </article>
+
+        <!-- CARD 5: CRÉDITOS Y RESPONSABILIDAD ACADÉMICA -->
+        <article class="glass-card p-6 sm:p-8">
+            <div class="flex items-center gap-3.5 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-gold-400 flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-users-gear"></i>
+                </div>
+                <div>
+                    <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white">5. Responsables del Proyecto & Contacto</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Desarrollo y supervisión académica de las prácticas</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+                <div class="p-4 rounded-xl bg-white/70 dark:bg-slate-800/60 border border-amber-200/40 dark:border-slate-700">
+                    <h4 class="font-bold text-slate-900 dark:text-white text-sm">Kevin Eduardo Lujan Prado</h4>
+                    <p class="text-amber-700 dark:text-gold-400 text-xs font-medium">Investigación & Desarrollo Frontend</p>
+                    <p class="text-slate-500 dark:text-slate-400 text-xs mt-2">
+                        Autor de la investigación estructurada sobre la Teoría de la Tierra Hueca (Hollow Earth Theory) y co-creador de PotatoHub Search Suite.
+                    </p>
+                </div>
+                <div class="p-4 rounded-xl bg-white/70 dark:bg-slate-800/60 border border-amber-200/40 dark:border-slate-700">
+                    <h4 class="font-bold text-slate-900 dark:text-white text-sm">Mauricio Prieto</h4>
+                    <p class="text-amber-700 dark:text-gold-400 text-xs font-medium">Arquitectura de Experiencia & Diseño</p>
+                    <p class="text-slate-500 dark:text-slate-400 text-xs mt-2">
+                        Co-creador de la experiencia gourmet PotatoHub, catalogación de variedades y diseño del sistema visual unificado.
+                    </p>
+                </div>
+            </div>
+        </article>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="py-8 border-t border-amber-200/40 dark:border-slate-800 text-center text-xs text-slate-500 dark:text-slate-400">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span>Portal Protegido con Protocolos Criptográficos Activos</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="dashboard.html" class="hover:text-amber-600 dark:hover:text-gold-400 transition-colors">Panel</a>
+                <span>•</span>
+                <a href="login.html" class="hover:text-amber-600 dark:hover:text-gold-400 transition-colors">Iniciar Sesión</a>
+                <span>•</span>
+                <span>Edición 2026</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPT -->
+    <script>
+        // Purga de Datos
+        const btnPurge = document.getElementById('btn-purge-data');
+        const purgeNotice = document.getElementById('purge-notification');
+
+        btnPurge.addEventListener('click', () => {
+            if (confirm('¿Está seguro de que desea eliminar todos los datos y tokens de sesión guardados en este navegador?')) {
+                localStorage.clear();
+                sessionStorage.clear();
+                purgeNotice.classList.remove('hidden');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1200);
+            }
+        });
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const htmlElement = document.documentElement;
+
+        function updateThemeIcon() {
+            if (htmlElement.classList.contains('dark')) {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            htmlElement.classList.add('dark');
+        } else {
+            htmlElement.classList.remove('dark');
+        }
+        updateThemeIcon();
+
+        themeToggle.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+            updateThemeIcon();
+        });
+
+        // Micro-animación 3D Tilt táctil para tarjetas Glass
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                card.style.transform = `perspective(1000px) rotateX(${(-y / 45).toFixed(2)}deg) rotateY(${(x / 45).toFixed(2)}deg) translateY(-6px) scale(1.01)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+
+        // Indicador de Progreso de Lectura Scroll
+        window.addEventListener('scroll', () => {
+            const h = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = h > 0 ? (window.scrollY / h) * 100 : 0;
+            const bar = document.getElementById('scroll-progress');
+            if (bar) bar.style.width = progress + '%';
+        }, { passive: true });
+    </script>
+</body>
+
+</html>

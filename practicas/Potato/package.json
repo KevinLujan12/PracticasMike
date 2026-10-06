@@ -1,0 +1,12 @@
+{
+  "name": "potatohub",
+  "version": "1.0.0",
+  "description": "PotatoHub - Gourmet UI Search Methods",
+  "scripts": {
+    "start": "npx -y serve .",
+    "dev": "npx -y serve ."
+  },
+  "keywords": [],
+  "author": "KEVIN LUJAN & MAURICIO PRIETO",
+  "license": "ISC"
+}
