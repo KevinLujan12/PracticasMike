@@ -51,8 +51,30 @@
 
     <!-- FontAwesome 6 Pro-style icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../style.css">
 
     <style>
+        /* Ambient Floating Glowing Orbs */
+        .orb {
+            position: absolute !important;
+            border-radius: 9999px !important;
+            filter: blur(80px) !important;
+            pointer-events: none !important;
+            z-index: 0 !important;
+            opacity: 0.55;
+            animation: orbFloat 14s ease-in-out infinite alternate;
+        }
+
+        .dark .orb {
+            opacity: 0.25;
+        }
+
+        @keyframes orbFloat {
+            0% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(30px, -40px) scale(1.12); }
+            100% { transform: translate(-25px, 35px) scale(0.95); }
+        }
+
         /* Card entrance smooth animation */
         .card-enter {
             opacity: 0;
@@ -134,14 +156,14 @@
 </head>
 
 <body
-    class="bg-[#FAF7F2] text-slate-800 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col font-sans selection:bg-gold-200 selection:text-gold-900 relative">
+    class="bg-[#FAF7F2] text-slate-800 dark:bg-[#0B0F17] dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col font-sans selection:bg-gold-200 selection:text-gold-900 relative overflow-x-hidden">
 
     <!-- HAIRLINE SCROLL PROGRESS BAR -->
     <div id="scroll-progress"></div>
 
     <!-- AMBIENT FLOATING ORBS -->
-    <div class="orb w-96 h-96 bg-amber-500/20 -top-20 -left-20"></div>
-    <div class="orb w-[500px] h-[500px] bg-gold-400/15 top-1/3 -right-40" style="animation-delay: -5s;"></div>
+    <div class="orb pointer-events-none absolute rounded-full blur-3xl -z-0 w-96 h-96 bg-amber-500/20 -top-20 -left-20"></div>
+    <div class="orb pointer-events-none absolute rounded-full blur-3xl -z-0 w-[500px] h-[500px] bg-gold-400/15 top-1/3 -right-40" style="animation-delay: -5s;"></div>
 
     <!-- TOP ANNOUNCEMENT BAR / NOTABLE SIGNATURE -->
     <aside aria-label="Signature announcement"

@@ -47,15 +47,20 @@
      * Permite que auth funcione desde raíz, 1 nivel o 3 niveles de profundidad
      */
     function getRootPath() {
-        const path = window.location.pathname.replace(/\\/g, '/');
-        if (path.includes('/practicas/Kevin_Eduardo_Lujan_Prado_Earth_Theory (1)/Kevin_Eduardo_Lujan_Prado_Earth_Theory/')) {
-            return '../../../';
-        }
-        if (path.includes('/practicas/Potato/')) {
-            return '../../';
-        }
-        if (path.includes('/practicas/')) {
-            return '../';
+        try {
+            const rawPath = window.location.pathname.replace(/\\/g, '/');
+            const path = decodeURIComponent(rawPath).toLowerCase();
+            if (path.includes('/kevin_eduardo_lujan_prado_earth_theory') || path.includes('/earth_theory/') || path.includes('/earth theory/')) {
+                return '../../../';
+            }
+            if (path.includes('/potato/')) {
+                return '../../';
+            }
+            if (path.includes('/practicas/')) {
+                return '../';
+            }
+        } catch (e) {
+            console.error('[AuthGuard] Error calculating getRootPath:', e);
         }
         return './';
     }
