@@ -232,7 +232,7 @@
                 <!-- Back to Dashboard -->
                 <a href="../../dashboard.html"
                     class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-gold-400 border border-amber-200/50 dark:border-slate-700 hover:border-amber-400 transition-all bg-white/50 dark:bg-slate-800/50"
-                    title="Volver al panel principal">
+                    title="Back to command center">
                     <i class="fa-solid fa-grip text-amber-600 dark:text-gold-400"></i>
                     <span class="hidden md:inline">Dashboard</span>
                 </a>
@@ -240,7 +240,7 @@
                 <!-- Cross Link to Earth Theory -->
                 <a href="../Kevin_Eduardo_Lujan_Prado_Earth_Theory (1)/Kevin_Eduardo_Lujan_Prado_Earth_Theory/index.html"
                     class="hidden lg:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 border border-amber-200/50 dark:border-slate-700 hover:border-emerald-500 transition-all bg-white/50 dark:bg-slate-800/50"
-                    title="Ir a Práctica: Teoría de la Tierra">
+                    title="Go to Earth Theory research">
                     <i class="fa-solid fa-earth-americas text-emerald-500"></i>
                     <span>Earth Theory</span>
                 </a>
@@ -255,18 +255,18 @@
                 <!-- Mini Cart Indicator (Opens Drawer) -->
                 <button id="cart-btn"
                     class="relative w-10 h-10 rounded-xl bg-amber-50 hover:bg-amber-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-amber-300 transition-all flex items-center justify-center border border-amber-200/50 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                    title="Ver canasta de reserva">
+                    title="View reservation basket">
                     <i class="fa-solid fa-bag-shopping text-base"></i>
                     <span id="cart-counter"
                         class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-amber-600 text-white text-[10px] font-bold flex items-center justify-center shadow">0</span>
                 </button>
 
                 <!-- Logout Button -->
-                <button onclick="logout('Cierre de sesión desde PotatoHub')"
+                <button onclick="logout('Signed out from PotatoHub')"
                     class="px-3 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 transition-all flex items-center gap-1.5 shadow-sm"
-                    title="Cerrar sesión">
+                    title="Sign Out">
                     <i class="fa-solid fa-right-from-bracket"></i>
-                    <span class="hidden sm:inline">Salir</span>
+                    <span class="hidden sm:inline">Sign Out</span>
                 </button>
             </div>
         </div>
@@ -580,7 +580,7 @@
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <button id="clear-cart-btn" class="btn-outline text-xs py-2.5 rounded-xl justify-center">
-                        Vaciar
+                        Clear
                     </button>
                     <button id="checkout-btn" class="btn-gold text-xs py-2.5 rounded-xl justify-center">
                         Checkout
@@ -593,12 +593,12 @@
     <!-- TERMS MODAL -->
     <div id="terms-modal" class="drawer-backdrop flex items-center justify-center p-4">
         <div class="bg-white dark:bg-[#121824] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-amber-300/40 dark:border-amber-500/30 text-left">
-            <h3 class="font-serif text-lg font-bold mb-2 text-slate-900 dark:text-white">Términos de Servicio & Uso</h3>
+            <h3 class="font-serif text-lg font-bold mb-2 text-slate-900 dark:text-white">Terms of Service & Usage</h3>
             <p class="text-xs text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
-                Esta aplicación constituye una entrega académica oficial de desarrollo web con filtrado facetado y búsqueda avanzada. Todas las reservas son simuladas sin transacciones financieras reales.
+                This application constitutes an official academic submission featuring faceted filtering and advanced search. All reservations are simulated with zero financial transactions.
             </p>
             <div class="text-right">
-                <button onclick="document.getElementById('terms-modal').classList.remove('active')" class="btn-gold text-xs py-2 px-4">Entendido</button>
+                <button onclick="document.getElementById('terms-modal').classList.remove('active')" class="btn-gold text-xs py-2 px-4">Understood</button>
             </div>
         </div>
     </div>
@@ -606,17 +606,17 @@
     <!-- INQUIRIES MODAL -->
     <div id="inquiries-modal" class="drawer-backdrop flex items-center justify-center p-4">
         <div class="bg-white dark:bg-[#121824] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-amber-300/40 dark:border-amber-500/30 text-left">
-            <h3 class="font-serif text-lg font-bold mb-2 text-slate-900 dark:text-white">Consultas & Contacto Directo</h3>
+            <h3 class="font-serif text-lg font-bold mb-2 text-slate-900 dark:text-white">Direct Inquiries & Contact</h3>
             <p class="text-xs text-slate-600 dark:text-slate-300 mb-3 leading-relaxed">
-                Para consultas sobre esta práctica o colaboración de proyectos de diseño web y desarrollo de software:
+                For inquiries regarding this practice or collaboration on web design and software engineering projects:
             </p>
             <div class="bg-amber-50/70 dark:bg-slate-800/50 p-3 rounded-xl border border-amber-200/40 dark:border-slate-700 text-xs mb-4 space-y-1">
-                <p><strong>Autores:</strong> Kevin Lujan & Mauricio Prieto</p>
-                <p><strong>Especialidad:</strong> Desarrollo Frontend & Interfaces Gourmet</p>
-                <p><strong>Ciclo:</strong> Prácticas Profesionales 2026</p>
+                <p><strong>Authors:</strong> Kevin Lujan & Mauricio Prieto</p>
+                <p><strong>Specialty:</strong> Frontend Engineering & Gourmet Interfaces</p>
+                <p><strong>Cycle:</strong> Academic Internships 2026</p>
             </div>
             <div class="text-right">
-                <button onclick="document.getElementById('inquiries-modal').classList.remove('active')" class="btn-gold text-xs py-2 px-4">Cerrar</button>
+                <button onclick="document.getElementById('inquiries-modal').classList.remove('active')" class="btn-gold text-xs py-2 px-4">Close</button>
             </div>
         </div>
     </div>
@@ -627,11 +627,11 @@
             <div class="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl mx-auto mb-3">
                 <i class="fa-solid fa-circle-check"></i>
             </div>
-            <h3 class="font-serif text-xl font-bold mb-1 text-slate-900 dark:text-white">¡Reserva Gourmet Confirmada!</h3>
+            <h3 class="font-serif text-xl font-bold mb-1 text-slate-900 dark:text-white">Gourmet Reservation Confirmed!</h3>
             <p class="text-xs text-slate-600 dark:text-slate-300 mb-4">
-                Tu solicitud de selección artesanal ha sido registrada en el simulador de pedidos de PotatoHub.
+                Your artisanal selection request has been recorded in the PotatoHub ordering simulator.
             </p>
-            <button onclick="document.getElementById('checkout-modal').classList.remove('active')" class="btn-gold text-xs py-2 px-6">Aceptar</button>
+            <button onclick="document.getElementById('checkout-modal').classList.remove('active')" class="btn-gold text-xs py-2 px-6">Accept</button>
         </div>
     </div>
 
@@ -909,7 +909,7 @@
                 });
             }
             updateCartUI();
-            showToast(`${potatoName} reservada!`, `$${price.toFixed(2)} / lb agregada a tu canasta gourmet`);
+            showToast(`${potatoName} reserved!`, `$${price.toFixed(2)} / lb added to your gourmet basket`);
         }
 
         function renderPotatoes(list) {
@@ -1243,7 +1243,7 @@
         });
 
         clearCartBtn.addEventListener('click', () => {
-            if (cartItems.length > 0 && confirm('¿Deseas vaciar la canasta?')) {
+            if (cartItems.length > 0 && confirm('Are you sure you want to clear your cart?')) {
                 cartItems = [];
                 updateCartUI();
             }
@@ -1251,7 +1251,7 @@
 
         checkoutBtn.addEventListener('click', () => {
             if (cartItems.length === 0) {
-                alert('La canasta está vacía. Selecciona al menos una variedad.');
+                alert('Your cart is empty. Please select at least one variety.');
                 return;
             }
             cartDrawer.classList.remove('active');

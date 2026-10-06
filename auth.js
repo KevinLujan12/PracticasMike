@@ -184,12 +184,12 @@
 
             if (attempts >= 10) {
                 lockedUntil = Date.now() + (CONFIG.EXTENDED_LOCKOUT_SECONDS * 1000);
-                logAuditEvent('BRUTE_FORCE_LOCKOUT_EXTENDED', `Bloqueo extendido de 5 min activado tras ${attempts} intentos fallidos.`);
+                logAuditEvent('BRUTE_FORCE_LOCKOUT_EXTENDED', `Extended 5-minute lockout triggered after ${attempts} failed attempts.`);
             } else if (attempts >= CONFIG.MAX_FAILED_ATTEMPTS) {
                 lockedUntil = Date.now() + (CONFIG.LOCKOUT_TIME_SECONDS * 1000);
-                logAuditEvent('BRUTE_FORCE_LOCKOUT', `Bloqueo preventivo de 30s activado tras ${attempts} intentos fallidos.`);
+                logAuditEvent('BRUTE_FORCE_LOCKOUT', `Preventative 30s lockout triggered after ${attempts} failed attempts.`);
             } else {
-                logAuditEvent('FAILED_LOGIN_ATTEMPT', `Intento fallido ${attempts} de ${CONFIG.MAX_FAILED_ATTEMPTS}`);
+                logAuditEvent('FAILED_LOGIN_ATTEMPT', `Failed login attempt ${attempts} of ${CONFIG.MAX_FAILED_ATTEMPTS}`);
             }
 
             localStorage.setItem(CONFIG.LOCKOUT_KEY, JSON.stringify({
@@ -251,72 +251,72 @@
             const [encodedHeader, encodedPayload, signature] = parts;
             const message = `${encodedHeader}.${encodedPayload}`;
 
-            // 1. Verificar Firma HMAC
+            // 1. Verify HMAC Signature
             const expectedSignature = await generateHMAC(message, CONFIG.HMAC_SECRET);
             if (signature !== expectedSignature) {
-                logAuditEvent('TOKEN_TAMPERING_DETECTED', 'Alerta: Token con firma HMAC alterada.');
-                return { valid: false, reason: 'Firma HMAC inválida: Posible intento de manipulación' };
+                logAuditEvent('TOKEN_TAMPERING_DETECTED', 'Warning: Tampered JWT HMAC signature.');
+                return { valid: false, reason: 'Invalid HMAC signature: Potential tampering attempt detected' };
             }
 
-            // 2. Decodificar Payload
+            // 2. Decode Payload
             let payload;
             try {
                 payload = JSON.parse(atob(encodedPayload));
             } catch (e) {
-                return { valid: false, reason: 'Error al decodificar carga útil de JWT' };
+                return { valid: false, reason: 'Failed to decode JWT payload' };
             }
 
-            // 3. Expiración
+            // 3. Expiration Check
             const now = Date.now();
             if (now > payload.exp) {
-                logAuditEvent('SESSION_EXPIRED', `El token para ${payload.user} ha expirado.`);
-                return { valid: false, reason: 'El token ha expirado. Sesión finalizada.' };
+                logAuditEvent('SESSION_EXPIRED', `Token for ${payload.user} has expired.`);
+                return { valid: false, reason: 'Session token has expired. Re-authentication required.' };
             }
 
-            // 4. Inactividad
+            // 4. Inactivity Monitor
             const lastActivity = parseInt(sessionStorage.getItem(CONFIG.LAST_ACTIVITY_KEY) || '0', 10);
             if (lastActivity && (now - lastActivity > CONFIG.INACTIVITY_TIMEOUT_MS)) {
-                logAuditEvent('INACTIVITY_TIMEOUT', `Sesión cerrada por inactividad (> 15 min).`);
-                return { valid: false, reason: 'Sesión cerrada por inactividad de más de 15 minutos.' };
+                logAuditEvent('INACTIVITY_TIMEOUT', 'Session closed due to inactivity (> 15 min).');
+                return { valid: false, reason: 'Session timed out due to over 15 minutes of inactivity.' };
             }
 
             sessionStorage.setItem(CONFIG.LAST_ACTIVITY_KEY, now.toString());
             return { valid: true, payload: payload };
         } else {
-            // Soporte token legacy btoa({ user, exp })
+            // Support legacy token btoa({ user, exp })
             try {
                 const payload = JSON.parse(atob(token));
                 if (Date.now() > payload.exp) {
-                    return { valid: false, reason: 'Token expirado' };
+                    return { valid: false, reason: 'Expired token' };
                 }
                 return { valid: true, payload: payload };
             } catch (e) {
-                return { valid: false, reason: 'Formato de token desconocido' };
+                return { valid: false, reason: 'Unknown token format' };
             }
         }
     }
 
     /**
-     * Iniciar Sesión con Protección Completa (Almacenamiento en sessionStorage)
+     * Complete Login Protection (sessionStorage lifecycle)
      */
     async function login(username, password) {
         const lockout = getLockoutStatus();
         if (lockout.isLocked) {
             return {
                 success: false,
-                message: `Demasiados intentos fallidos. Sistema bloqueado por ${lockout.remainingSeconds} segundos.`,
+                message: `Too many failed attempts. Security lockout active for ${lockout.remainingSeconds} seconds.`,
                 remainingSeconds: lockout.remainingSeconds
             };
         }
 
-        // Límite de longitud de entrada para prevenir ataques de desbordamiento
+        // Input length bound to prevent buffer/injection attacks
         const cleanUser = sanitize((username || '').trim().substring(0, 64));
         const cleanPass = (password || '').trim().substring(0, 64);
 
         // Anti-Timing Attack Delay
         await new Promise(r => setTimeout(r, 320));
 
-        // Validación de credenciales autorizadas
+        // Authorized credentials check
         const isMike = cleanUser.toLowerCase() === 'mike' && 
             (cleanPass === 'Mike' || cleanPass === 'mike' || cleanPass === 'Mike2026' || cleanPass === '1234');
         const isAdmin = cleanUser.toLowerCase() === 'admin' && cleanPass === '1234';
@@ -328,12 +328,12 @@
         if (validCredentials) {
             resetLockout();
             
-            const role = isMike ? 'Evaluador Oficial' : (isAdmin ? 'Super Administrador' : 'Investigador Principal');
+            const role = isMike ? 'Official Evaluator' : (isAdmin ? 'Super Administrator' : 'Principal Researcher');
             const displayName = isMike ? 'Mike' : (isAdmin ? 'Kevin Lujan & Mauricio Prieto' : cleanUser.charAt(0).toUpperCase() + cleanUser.slice(1));
             
             const token = await createSecureToken(cleanUser, role);
 
-            // Almacenar en sessionStorage: Se destruye automáticamente al cerrar la pestaña/ventana
+            // Store in sessionStorage: Destroyed upon tab/window closure
             sessionStorage.setItem(CONFIG.TOKEN_KEY, token);
             sessionStorage.setItem(CONFIG.LEGACY_TOKEN_KEY, token);
             sessionStorage.setItem(CONFIG.USER_KEY, JSON.stringify({
@@ -345,16 +345,16 @@
             }));
             sessionStorage.setItem(CONFIG.LAST_ACTIVITY_KEY, Date.now().toString());
 
-            // Limpiar cualquier token persistente anterior en localStorage
+            // Clear any lingering tokens in localStorage
             localStorage.removeItem(CONFIG.TOKEN_KEY);
             localStorage.removeItem(CONFIG.LEGACY_TOKEN_KEY);
             localStorage.removeItem(CONFIG.USER_KEY);
 
-            logAuditEvent('LOGIN_SUCCESS', `Inicio de sesión exitoso para: ${cleanUser} con rol ${role}`);
+            logAuditEvent('LOGIN_SUCCESS', `Successful sign-in for: ${cleanUser} with role ${role}`);
 
             return {
                 success: true,
-                message: 'Autenticación exitosa. Redirigiendo...',
+                message: 'Authentication successful. Redirecting...',
                 user: cleanUser
             };
         } else {
@@ -363,8 +363,8 @@
             return {
                 success: false,
                 message: newLockout.isLocked
-                    ? `Bloqueo de seguridad activado por ${newLockout.remainingSeconds} segundos.`
-                    : `Credenciales incorrectas. Te quedan ${newLockout.attemptsLeft} intentos antes del bloqueo.`,
+                    ? `Security lockout activated for ${newLockout.remainingSeconds} seconds.`
+                    : `Invalid credentials. ${newLockout.attemptsLeft} attempts remaining before lockout.`,
                 attemptsLeft: newLockout.attemptsLeft,
                 remainingSeconds: newLockout.remainingSeconds
             };
@@ -372,10 +372,10 @@
     }
 
     /**
-     * Cerrar Sesión de Forma Segura
+     * Secure Logout
      */
     function logout(reason) {
-        logAuditEvent('LOGOUT', reason || 'Cierre de sesión manual voluntario.');
+        logAuditEvent('LOGOUT', reason || 'Voluntary user logout.');
         
         sessionStorage.removeItem(CONFIG.TOKEN_KEY);
         sessionStorage.removeItem(CONFIG.LEGACY_TOKEN_KEY);
